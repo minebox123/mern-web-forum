@@ -3,7 +3,9 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 
-const user = require("./routes/user");
+const users = require("./routes/users");
+const profile = require("./routes/profile");
+// const posts = require("./routes/posts");
 
 const app = express();
 
@@ -24,7 +26,7 @@ mongoose
 app.use(passport.initialize());
 // Imports out configuration file which holds our
 // verification callbacks and things like the secret for signing
-// require("./config/passport")(passport);
+require("./config/passport")(passport);
 
 // Routes
 app.get("/", (req, res) => {
@@ -32,7 +34,8 @@ app.get("/", (req, res) => {
     msg: "works"
   });
 });
-app.use("/", user);
+app.use("/", users);
+app.use("/profile", profile);
 
 const port = process.env.PORT || 5000;
 
