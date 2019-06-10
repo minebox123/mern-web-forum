@@ -6,8 +6,13 @@ const ProfileSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "users"
   },
+  experience: {
+    type: String,
+    required: true
+  },
   location: {
-    type: String
+    type: String,
+    required: true
   },
   bio: {
     type: String
