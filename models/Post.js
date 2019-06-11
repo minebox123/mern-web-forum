@@ -14,18 +14,10 @@ const PostSchema = new Schema({
     type: String,
     required: true
   },
-  additional: [
-    {
-      image: {
-        type: String,
-        data: Buffer
-      },
-      file: {
-        type: String,
-        data: Buffer
-      }
-    }
-  ],
+  file: {
+    type: [String],
+    data: Buffer
+  },
   likes: [
     {
       user: {
@@ -49,7 +41,11 @@ const PostSchema = new Schema({
         default: Date.now
       }
     }
-  ]
+  ],
+  date: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 module.exports = Post = mongoose.model("Post", PostSchema);
