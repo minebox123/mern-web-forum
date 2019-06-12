@@ -37,6 +37,19 @@ router.get(
   }
 );
 
+// Get all profiles
+router.get("/all", (req, res) => {
+  Profile.find()
+    .then(profile => {
+      if (!profile) {
+        res.status(404).json({ noprofile: "There are not any pofiles" });
+      } else {
+        res.json(profile);
+      }
+    })
+    .catch(err => res.status(404).json(err));
+});
+
 // Post profile information
 router.post(
   "/",

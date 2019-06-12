@@ -4,14 +4,20 @@
   "description": "A Simple Online Forum To Share With Other Members",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "client-install": "npm install --prefix client",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Ilya Solodeev",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "concurrently": "^4.1.0",
     "express": "^4.17.1",
+    "fsevents": "1.2.8",
     "gridfs-stream": "^1.1.1",
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",

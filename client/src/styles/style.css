@@ -1,0 +1,73 @@
+.header {
+    width: 100%;
+    background-color: #e6e6e6;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.header__container {
+    max-width: 1200px;
+    height: 60px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.header__links--post {
+    margin-right: 20px;
+}
+
+/* Landing */
+
+
+.landing-page {
+    width: 500px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 0 auto;
+}
+
+.landing-page__message h1 {
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.landing-page__message h1 span {
+    margin-left: 20px;
+}
+
+.landing-page__links {
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.landing-page__links a {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100px;
+    padding: 15px 15px;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+
+}
+
+
+.landing-page__links--register {
+    background-color: #6221EA;
+    color: #fff;
+}
+
+.landing-page__links--register:hover {
+    background-color: #7840ed;
+
+}
+
+.landing-page__links--login {
+    color: #6221EA;
+}
