@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class Landing extends Component {
   render() {
@@ -10,12 +11,12 @@ class Landing extends Component {
           </h1>
         </div>
         <div className="landing-page__links">
-          <a href="/register" className="landing-page__links--register">
-            REGISTER
-          </a>
-          <a href="/login" className="landing-page__links--login">
-            LOGIN
-          </a>
+          <Link to="/register">
+            <button className="landing-page__links--register">REGISTER</button>
+          </Link>
+          <Link to="/login">
+            <button className="landing-page__links--login">LOGIN</button>
+          </Link>
         </div>
       </section>
     );
@@ -23,26 +24,3 @@ class Landing extends Component {
 }
 
 export default Landing;
-
-{
-  /* <section className="landing-page">
-        <form className="landing-page__registration-form">
-          <div className="registration-form">
-            <label>Enter your username</label>
-            <input type="text" />
-          </div>
-          <div className="registration-form">
-            <label>Enter your email</label>
-            <input type="text" />
-          </div>
-          <div className="registration-form">
-            <label>Enter your password</label>
-            <input type="text" />
-          </div>
-          <div className="registration-form">
-            <label>Confirm the password</label>
-            <input type="text" />
-          </div>
-        </form>
-      </section> */
-}

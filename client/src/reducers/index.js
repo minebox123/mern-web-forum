@@ -1,9 +1,6 @@
-const initialState = {
-  users: "Petya"
-};
+import { combineReducers } from "redux";
+import authReducer from "./authReducer";
 
-function rootReducer(state = initialState, action) {
-  return state;
-}
-
-export default rootReducer;
+export default combineReducers({
+  auth: authReducer
+});
