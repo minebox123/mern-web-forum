@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
-import axios from "axios";
+
 import "./style.css";
 
 class Register extends Component {
@@ -9,7 +10,8 @@ class Register extends Component {
     username: "",
     email: "",
     password: "",
-    password2: ""
+    password2: "",
+    errors: {}
   };
 
   componentDidMount() {
@@ -18,9 +20,12 @@ class Register extends Component {
     }
   }
 
-  // componentDidUpdate() {
-
-  // }
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
 
   onChange = e =>
     this.setState({
@@ -41,9 +46,10 @@ class Register extends Component {
   };
 
   render() {
-    const { username, email, password, password2 } = this.state;
+    const { username, email, password, password2, errors } = this.state;
     return (
       <section className="register">
+        {errors.exists && <h2>{errors.exists}</h2>}
         <h1>Register and start using the forum right now</h1>
         <form
           className="landing-page__registration-form"
@@ -56,8 +62,8 @@ class Register extends Component {
               name="username"
               value={username}
               onChange={this.onChange}
-              required
             />
+            {errors && <small>{errors.username}</small>}
           </div>
           <div className="registration-form">
             <label>Enter your email</label>
@@ -68,6 +74,7 @@ class Register extends Component {
               value={email}
               onChange={this.onChange}
             />
+            {errors && <small>{errors.email}</small>}
           </div>
           <div className="registration-form">
             <label>Enter your password</label>
@@ -78,6 +85,7 @@ class Register extends Component {
               value={password}
               onChange={this.onChange}
             />
+            {errors && <small>{errors.password}</small>}
           </div>
           <div className="registration-form">
             <label>Confirm the password</label>
@@ -87,6 +95,7 @@ class Register extends Component {
               value={password2}
               onChange={this.onChange}
             />
+            {errors && <small>{errors.password2}</small>}
           </div>
           <button type="submit">Submit</button>
         </form>
@@ -95,8 +104,13 @@ class Register extends Component {
   }
 }
 
+Register.propTypes = {
+  errors: PropTypes.object.isRequired
+};
+
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 
 export default connect(
