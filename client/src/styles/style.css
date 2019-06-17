@@ -2,6 +2,7 @@
   width: 100%;
   background-color: #e6e6e6;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+
 }
 
 .header__container {
@@ -13,9 +14,69 @@
   justify-content: space-between;
 }
 
-.header__links--post {
+.header__container a {
+  text-decoration: none;
+}
+
+.header__links {
+  display: flex;
+  align-items: center;
+}
+
+.logout {
+  margin-left: 20px;
+  border: 1px solid #d5d5d5;
+  padding: 7px 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  background-color: #e6e6e6;
+
+}
+
+.logout i {
+  margin-left: 20px;
+  margin-bottom: 7px;
+  font-size: 18px;
+}
+
+.dropdown-menu {
+  position: fixed;
+  background-color: #e6e6e6;
+  width: 152px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border: 1px solid #d5d5d5;
+  border-top: none;
+  z-index: 1;
+
+
+}
+
+.dropdown-menu li {
+  padding: 5px 0px 5px 20px;
+}
+
+.dropdown-menu li:hover {
+  background-color: #d5d5d5;
+}
+
+.dropdown-menu a {
+  color: #000;
+}
+
+.dropdown-menu li:last-child {
+  border-top: 1px solid #d5d5d5;
+
+}
+
+.header__links--login {
   margin-right: 20px;
 }
+
+
+
 
 /* Landing */
 
@@ -58,6 +119,7 @@
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 1px 6px rgba(0, 0, 0, 0.4);
   outline: none;
 }
+
 .landing-page__links a {
   text-decoration: none;
 }
@@ -69,9 +131,11 @@
   overflow: hidden;
   transform: translate3d(0, 0, 0);
 }
+
 .landing-page__links--register:hover {
   background-color: #7840ed;
 }
+
 .landing-page__links--register::after {
   content: "";
   display: block;
@@ -88,6 +152,7 @@
   opacity: 0;
   transition: transform 0.3s, opacity 1s;
 }
+
 .landing-page__links--register:active::after {
   transform: scale(0, 0);
   opacity: 0.3;
@@ -100,9 +165,11 @@
   overflow: hidden;
   transform: translate3d(0, 0, 0);
 }
+
 .landing-page__links--login:hover {
   background-color: #f1ebfd;
 }
+
 .landing-page__links--login::after {
   content: "";
   display: block;
@@ -119,6 +186,7 @@
   opacity: 0;
   transition: transform 0.3s, opacity 1s;
 }
+
 .landing-page__links--login:active::after {
   transform: scale(0, 0);
   opacity: 0.3;

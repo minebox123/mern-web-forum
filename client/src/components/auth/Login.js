@@ -6,7 +6,8 @@ import "./style.css";
 class Login extends Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    errors: {}
   };
 
   componentDidMount() {
@@ -15,7 +16,7 @@ class Login extends Component {
     }
   }
 
-  componentDidUpdate(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
     }
@@ -69,7 +70,8 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 
 export default connect(
