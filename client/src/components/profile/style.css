@@ -1,0 +1,95 @@
+.profile {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.profile__form {
+    margin-top: 4rem;
+    width: 400px;
+    min-height: 600px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 5px;
+}
+
+.profile__form h1 {
+    font-size: 22px;
+    text-align: center;
+    padding: 20px 0px;
+
+}
+
+.profile__form--input {
+    margin: 0 20px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile__form--input input {
+
+    height: 30px;
+    border: none;
+    border-bottom: 2px solid #000;
+    color: #000;
+    outline: none;
+    font-size: 20px;
+}
+
+.profile__form--file {
+    margin: 0 20px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile__form--file label {
+    margin-bottom: 10px;
+}
+
+
+.profile__form--textarea {
+
+    margin: 0 20px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile__form--textarea label {
+    margin-bottom: 10px;
+}
+
+.profile__form--textarea textarea {
+    max-width: 358px;
+    min-height: 80px;
+    max-height: 200px;
+}
+
+.profile__form--file img {
+    border: 1px solid red;
+    margin-top: 10px;
+    width: 180px;
+}
+
+.profile__form--file input[type=file] {}
+
+.button {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    width: 120px;
+    padding: 15px 20px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 1px 6px rgba(0, 0, 0, 0.4);
+    outline: none;
+    margin-left: 20px;
+    margin-top: 50px;
+
+
+
+}

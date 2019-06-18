@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addProfileInformation } from "../../actions/profileActions";
+import { imagePreview } from "../../utils/imagePreview";
+import "./style.css";
 
 class Profile extends Component {
   state = {
     experience: "",
     location: "",
-    bio: ""
+    bio: "",
+    avatar: ""
   };
 
   componentWillReceiveProps(nextProps) {
@@ -17,7 +20,11 @@ class Profile extends Component {
     }
   }
 
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
+  onChange = e =>
+    this.setState({
+      [e.target.name]: e.target.value
+      // avatar: URL.createObjectURL(e.target.files[0])
+    });
 
   onSubmit = e => {
     e.preventDefault();
@@ -32,10 +39,11 @@ class Profile extends Component {
   };
 
   render() {
-    const { experience, location, bio } = this.state;
+    const { experience, location, bio, avatar } = this.state;
     return (
       <section className="profile">
         <form className="profile__form" onSubmit={this.onSubmit}>
+          <h1>Settings information</h1>
           <div className="profile__form--input">
             <label>Write your experience</label>
             <input
@@ -45,6 +53,7 @@ class Profile extends Component {
               onChange={this.onChange}
             />
           </div>
+
           <div className="profile__form--input">
             <label>Write your location</label>
             <input
@@ -54,7 +63,7 @@ class Profile extends Component {
               onChange={this.onChange}
             />
           </div>
-          <div className="profile__form--input">
+          <div className="profile__form--textarea">
             <label>Write your bio</label>
             <textarea
               type="text"
@@ -63,7 +72,20 @@ class Profile extends Component {
               onChange={this.onChange}
             />
           </div>
-          <input type="submit" value="Submit" className="" />
+          <div className="profile__form--file">
+            <label htmlFor="avatar">Choose a picture</label>
+            <input
+              type="file"
+              name="avatar"
+              accept=".png, .jpeg"
+              onChange={this.onChange}
+              className="upload"
+            />
+            {avatar ? <img src={avatar} alt="icon" /> : null}
+          </div>
+          <button type="submit" className="button">
+            Submit
+          </button>
         </form>
       </section>
     );

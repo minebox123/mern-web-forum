@@ -36,6 +36,9 @@ class Header extends Component {
     const guestSession = (
       <ul className="header__links">
         <li>
+          <Link to="/posts">Posts</Link>
+        </li>
+        <li>
           <Link to="/login" className="header__links--login">
             Log in
           </Link>
@@ -50,6 +53,9 @@ class Header extends Component {
 
     const userSession = (
       <ul className="header__links">
+        <li>
+          <Link to="/posts">Posts</Link>
+        </li>
         <li>
           <Link to="/post" className="header__links--post">
             Create Post

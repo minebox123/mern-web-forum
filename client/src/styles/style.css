@@ -23,6 +23,10 @@
   align-items: center;
 }
 
+.header__links li:first-child {
+  margin-right: 20px;
+}
+
 .logout {
   margin-left: 20px;
   border: 1px solid #d5d5d5;
