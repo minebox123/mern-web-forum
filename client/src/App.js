@@ -11,7 +11,11 @@ import Header from "./components/layouts/Header";
 import Landing from "./components/layouts/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+import ForumMain from "./components/forum/ForumMain";
 import Profile from "./components/profile/Profile";
+import Motors from "./components/forum/Motors";
+import Pumps from "./components/forum/Pumps";
+import AnotherStuff from "./components/forum/AnotherStuff";
 
 import "./styles/reset.css";
 import "./styles/style.css";
@@ -39,10 +43,16 @@ function App() {
           <Header />
           <Route exact path="/" component={Landing} />
           <div className="main">
+            <Route exact path="/forum" component={ForumMain} />
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
             <Switch>
               <PrivateRoute exact path="/profile" component={Profile} />
+            </Switch>
+            <Switch>
+              <Route exact path="/forum/motors" component={Motors} />
+              <Route exact path="/forum/pumps" component={Pumps} />
+              <Route exact path="/forum/stuff" component={AnotherStuff} />
             </Switch>
           </div>
         </div>

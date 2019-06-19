@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addProfileInformation } from "../../actions/profileActions";
-import { imagePreview } from "../../utils/imagePreview";
+// import { imagePreview } from "../../utils/imagePreview";
+import { getCurrentProfile } from "../../actions/profileActions";
+import defaultAvatar from "../../img/default_avatar.png";
 import "./style.css";
 
 class Profile extends Component {
@@ -11,6 +13,10 @@ class Profile extends Component {
     bio: "",
     avatar: ""
   };
+
+  componentDidMount() {
+    this.props.getCurrentProfile();
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
@@ -39,9 +45,10 @@ class Profile extends Component {
   };
 
   render() {
+    console.log(this.props);
     const { experience, location, bio, avatar } = this.state;
     return (
-      <section className="profile">
+      <div className="profile">
         <form className="profile__form" onSubmit={this.onSubmit}>
           <h1>Settings information</h1>
           <div className="profile__form--input">
@@ -87,7 +94,14 @@ class Profile extends Component {
             Submit
           </button>
         </form>
-      </section>
+        <section className="profile__current-info">
+          <img src={defaultAvatar} alt="avatar" />
+          <p>username: {}</p>
+          <p>Location: {this.props.profile.location}</p>
+          <p>Experience: {this.props.profile.experience}</p>
+          <p>Bio: {this.props.profile.bio}</p>
+        </section>
+      </div>
     );
   }
 }
@@ -99,5 +113,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addProfileInformation }
+  { addProfileInformation, getCurrentProfile }
 )(Profile);
