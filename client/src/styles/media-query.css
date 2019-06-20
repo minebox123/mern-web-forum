@@ -8,6 +8,14 @@
     .profile {
         max-width: 1000px;
     }
+
+    .posts {
+        max-width: 1000px;
+    }
+
+    .post {
+        max-width: 1000px;
+    }
 }
 
 /* Width < 1000 */
@@ -17,6 +25,14 @@
     }
 
     .profile {
+        max-width: 800px;
+    }
+
+    .posts {
+        max-width: 800px;
+    }
+
+    .post {
         max-width: 800px;
     }
 }

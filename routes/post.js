@@ -1,6 +1,34 @@
 const express = require("express");
 const passport = require("passport");
 const router = express.Router();
+const fs = require("fs");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().toISOString() + file.originalname);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg"
+  ) {
+    cb(null, true);
+  }
+  cb(null, false);
+};
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5000000 },
+  fileFilter: fileFilter
+});
 
 // Validation
 const validationPostInput = require("../validation/post");
@@ -15,7 +43,7 @@ router.get("/", (req, res) => {
 });
 
 // Get all posts
-router.get("/", (req, res) => {
+router.get("/all", (req, res) => {
   Post.find()
     .sort({ date: -1 })
     .then(posts => res.json(posts))
@@ -46,31 +74,22 @@ router.get(
 // Create a post
 router.post(
   "/",
+  upload.single("avatar"),
   passport.authenticate("jwt", { session: false }),
+
   (req, res) => {
     const { errors, isValid } = validationPostInput(req.body);
     if (!isValid) {
       return res.status(400).json(errors);
     }
-    const userInput = {};
-    userInput.user = req.user._id;
-    if (req.body.text) userInput.text = req.body.text;
-    if (req.body.theme) userInput.theme = req.body.theme;
-    if (req.body.file) userInput.file = req.body.file;
-
-    Post.findOne({ user: req.user._id }).then(profile => {
-      if (profile) {
-        Post.findOneAndUpdate(
-          { user: req.user._id },
-          { $set: userInput },
-          { new: true }
-        ).then(profile => res.json(profile));
-      } else {
-        new Post(userInput).save().then(profile => res.json(profile));
-      }
+    console.log(req.file);
+    const newPost = new Post({
+      text: req.body.text,
+      theme: req.body.theme,
+      file: req.file.path,
+      user: req.user.id
     });
-
-    Post.findOne({});
+    newPost.save().then(post => res.json(post));
   }
 );
 

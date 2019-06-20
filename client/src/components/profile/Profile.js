@@ -45,7 +45,6 @@ class Profile extends Component {
   };
 
   render() {
-    console.log(this.props);
     const { experience, location, bio, avatar } = this.state;
     return (
       <div className="profile">
