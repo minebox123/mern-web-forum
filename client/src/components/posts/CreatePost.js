@@ -9,7 +9,7 @@ class CreatePost extends Component {
   state = {
     text: "",
     theme: "",
-    file: "",
+    avatar: "",
     errors: {}
   };
 
@@ -34,7 +34,7 @@ class CreatePost extends Component {
 
   fileSelectHandler = e => {
     this.setState({
-      file: e.target.files[0]
+      avatar: e.target.files[0]
     });
     console.log(e.target.files[0]);
   };
@@ -47,7 +47,7 @@ class CreatePost extends Component {
           onSubmit={this.onSubmit}
           className="post__form"
           action="/post"
-          method="post"
+          method="POST"
           encType="multipart/form-data"
         >
           <div className="post__form--input">

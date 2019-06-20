@@ -24,7 +24,7 @@ class Posts extends Component {
                 <h3>Theme: {post.theme}</h3>
                 <p>Text: {post.text}</p>
                 <p className="posts__comments ">
-                  <Link>Comments</Link>
+                  <Link to="/post/comment/:id">Comments</Link>
                   {post.comments.length}
                 </p>
                 <img
