@@ -13,7 +13,7 @@ class Posts extends Component {
 
   render() {
     const { posts } = this.props.post;
-
+    console.log(this.props.post);
     return (
       <section className="posts">
         <h1>Posts</h1>
@@ -29,7 +29,7 @@ class Posts extends Component {
                 </p>
                 <img
                   src={`http://localhost:5000/${post.file[0]}`}
-                  alt="avatar"
+                  alt="user's file"
                   width="100px"
                 />
               </li>
@@ -48,7 +48,8 @@ Posts.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  post: state.post
+  post: state.post,
+  auth: state.auth
 });
 
 export default connect(

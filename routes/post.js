@@ -74,7 +74,7 @@ router.get(
 // Create a post
 router.post(
   "/",
-  upload.single("avatar"),
+  upload.single("image"),
   passport.authenticate("jwt", { session: false }),
 
   (req, res) => {
@@ -86,9 +86,12 @@ router.post(
     const newPost = new Post({
       text: req.body.text,
       theme: req.body.theme,
-      file: req.file.path,
+      name: req.body.name,
+      avatar: req.body.avatar,
+      image: req.file.path,
       user: req.user.id
     });
+
     newPost.save().then(post => res.json(post));
   }
 );

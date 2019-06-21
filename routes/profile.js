@@ -1,32 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const multer = require("multer");
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./uploads/avatars");
-  },
-  filename: (req, file, cb) => {
-    cb(null, new Date().toISOString() + file.originalname);
-  }
-});
-
-const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === "image/jpeg" ||
-    file.mimetype === "image/png" ||
-    file.mimetype === "image/jpg"
-  ) {
-    cb(null, true);
-  }
-  cb(null, false);
-};
-
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 5000000 },
-  fileFilter: fileFilter
-});
 
 // Validation
 const validateProfileInput = require("../validation/profile");
@@ -79,7 +53,6 @@ router.get("/all", (req, res) => {
 // Post profile information
 router.post(
   "/",
-  upload.single("avatar"),
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const { errors, isValid } = validateProfileInput(req.body);
@@ -93,7 +66,6 @@ router.post(
     if (req.body.experience) userInput.experience = req.body.experience;
     if (req.body.location) userInput.location = req.body.location;
     if (req.body.bio) userInput.bio = req.body.bio;
-    if (req.file.path) userInput.avatar = req.file.path;
 
     Profile.findOne({ user: req.user._id }).then(profile => {
       if (profile) {

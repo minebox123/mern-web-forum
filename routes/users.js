@@ -4,13 +4,39 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../config/mongoDB");
 const User = require("../models/User");
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./uploads/avatars");
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().toISOString() + file.originalname);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg"
+  ) {
+    cb(null, true);
+  }
+  cb(null, false);
+};
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5000000 },
+  fileFilter: fileFilter
+});
 
 // Load Input Validation
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 
 // Registration
-router.post("/register", (req, res) => {
+router.post("/register", upload.single("avatar"), (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   // check validation
@@ -27,7 +53,8 @@ router.post("/register", (req, res) => {
       const newUser = new User({
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        avatar: req.file.path
       });
       bcrypt.genSalt(10, (err, salt) => {
         if (err) throw err;
@@ -63,7 +90,8 @@ router.post("/login", (req, res) => {
           // create JWT payload
           const payload = {
             id: user.id,
-            username: user.username
+            username: user.username,
+            avatar: user.avatar
           };
           // Sign Token
           jwt.sign(

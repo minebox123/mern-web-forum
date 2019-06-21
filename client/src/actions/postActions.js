@@ -21,13 +21,16 @@ export const getAllPosts = () => dispatch => {
 
 // CREATE A POST
 export const createPost = (userInput, history) => dispatch => {
+  const headers = {
+    "Content-Type": "form-data"
+  };
   axios
-    .post("/post", userInput)
+    .post("/post", userInput, headers)
     .then(res => history.push("/post/all"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
-        payload: {}
+        payload: err.response.data
       })
     );
 };

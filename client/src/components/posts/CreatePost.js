@@ -9,7 +9,7 @@ class CreatePost extends Component {
   state = {
     text: "",
     theme: "",
-    avatar: "",
+    image: "",
     errors: {}
   };
 
@@ -22,10 +22,14 @@ class CreatePost extends Component {
   onSubmit = e => {
     e.preventDefault();
 
+    const { user } = this.props.auth;
+
     const newPost = {
       text: this.state.text,
       theme: this.state.theme,
-      file: this.state.file
+      image: this.state.image,
+      name: user.username,
+      avatar: user.avatar
     };
 
     this.props.createPost(newPost);
@@ -33,9 +37,14 @@ class CreatePost extends Component {
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   fileSelectHandler = e => {
+    const param = e.target.files[0];
+    let reader = new FileReader();
+    reader.re(param);
+
     this.setState({
-      avatar: e.target.files[0]
+      image: reader.result
     });
+    console.log(reader);
   };
 
   render() {
@@ -89,13 +98,12 @@ class CreatePost extends Component {
 }
 
 CreatePost.propTypes = {
-  errors: PropTypes.object.isRequired,
-  post: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   errors: state.errors,
-  post: state.post
+  auth: state.auth
 });
 
 export default connect(

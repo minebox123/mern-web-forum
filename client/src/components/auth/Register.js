@@ -11,6 +11,7 @@ class Register extends Component {
     email: "",
     password: "",
     password2: "",
+    avatar: "",
     errors: {}
   };
 
@@ -31,12 +32,18 @@ class Register extends Component {
       [e.target.name]: e.target.value
     });
 
+  fileSelectHandler = e =>
+    this.setState({
+      avatar: e.target.files[0]
+    });
+
   onSubmit = e => {
     e.preventDefault();
 
     const newUser = {
       username: this.state.username,
       email: this.state.email,
+      avatar: this.state.avatar,
       password: this.state.password,
       password2: this.state.password2
     };
@@ -53,6 +60,9 @@ class Register extends Component {
         <form
           className="landing-page__registration-form"
           onSubmit={this.onSubmit}
+          action="/register"
+          method="post"
+          encType="multipart/form-data"
         >
           <div className="registration-form">
             <label>Enter your username</label>
@@ -74,6 +84,15 @@ class Register extends Component {
               onChange={this.onChange}
             />
             {errors && <small>{errors.email}</small>}
+          </div>
+          <div className="registration-form--file">
+            <label>Add Image</label>
+            <input
+              type="file"
+              name="file"
+              accept=".png, .jpg"
+              onChange={this.fileSelectHandler}
+            />
           </div>
           <div className="registration-form">
             <label>Enter your password</label>
