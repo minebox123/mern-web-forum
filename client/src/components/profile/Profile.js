@@ -4,6 +4,8 @@ import { addProfileInformation } from "../../actions/profileActions";
 // import { imagePreview } from "../../utils/imagePreview";
 import { getCurrentProfile } from "../../actions/profileActions";
 import defaultAvatar from "../../img/default_avatar.png";
+import facebookSpinner from "../../img/facebookSpinner.gif";
+import axios from "axios";
 import "./style.css";
 
 class Profile extends Component {
@@ -26,10 +28,14 @@ class Profile extends Component {
     }
   }
 
+  fileSelectHandler = e =>
+    this.setState({
+      avatar: e.target.files[0]
+    });
+
   onChange = e =>
     this.setState({
       [e.target.name]: e.target.value
-      // avatar: URL.createObjectURL(e.target.files[0])
     });
 
   onSubmit = e => {
@@ -38,7 +44,8 @@ class Profile extends Component {
     const userData = {
       experience: this.state.experience,
       location: this.state.location,
-      bio: this.state.bio
+      bio: this.state.bio,
+      avatar: this.state.avatar
     };
 
     this.props.addProfileInformation(userData, this.props.history);
@@ -46,9 +53,17 @@ class Profile extends Component {
 
   render() {
     const { experience, location, bio, avatar } = this.state;
+    console.log(this.props.profile);
+    const item = this.props.profile;
     return (
       <div className="profile">
-        <form className="profile__form" onSubmit={this.onSubmit}>
+        <form
+          className="profile__form"
+          onSubmit={this.onSubmit}
+          action="/profile"
+          method="post"
+          encType="multipart/form-data"
+        >
           <h1>Settings information</h1>
           <div className="profile__form--input">
             <label>Write your experience</label>
@@ -84,26 +99,41 @@ class Profile extends Component {
               type="file"
               name="avatar"
               accept=".png, .jpeg"
-              onChange={this.onChange}
+              onChange={this.fileSelectHandler}
               className="upload"
             />
-            {avatar ? <img src={avatar} alt="icon" /> : null}
           </div>
           <button type="submit" className="button">
             Submit
           </button>
         </form>
         <section className="profile__current-info">
-          <img src={defaultAvatar} alt="avatar" />
-          <p>username: {}</p>
-          <p>Location: {this.props.profile.location}</p>
-          <p>Experience: {this.props.profile.experience}</p>
-          <p>Bio: {this.props.profile.bio}</p>
+          {item.profile === null ? (
+            <img src={defaultAvatar} alt="avatar" />
+          ) : (
+            <img
+              src={`http://localhost:5000/${item.profile.avatar}`}
+              alt="avatar"
+            />
+          )}
+          {item.profile !== null ? (
+            <p>Username: {item.profile.user.username}</p>
+          ) : null}
+          {item.profile !== null ? (
+            <p>Location: {item.profile.location}</p>
+          ) : (
+            <img src={facebookSpinner} alt="spinner" />
+          )}
+          {item.profile !== null ? <p>Bio: {item.profile.bio}</p> : null}
         </section>
       </div>
     );
   }
 }
+
+Profile.defaultProps = {
+  avatar: defaultAvatar
+};
 
 const mapStateToProps = state => ({
   profile: state.profile,

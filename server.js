@@ -12,6 +12,7 @@ const post = require("./routes/post");
 const app = express();
 
 app.use("/uploads", express.static("uploads"));
+app.use("/uploads/avatars", express.static("avatars"));
 // body-parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

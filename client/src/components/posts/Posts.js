@@ -13,7 +13,7 @@ class Posts extends Component {
 
   render() {
     const { posts } = this.props.post;
-    console.log(posts);
+
     return (
       <section className="posts">
         <h1>Posts</h1>

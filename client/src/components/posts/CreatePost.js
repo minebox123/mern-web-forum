@@ -36,11 +36,11 @@ class CreatePost extends Component {
     this.setState({
       avatar: e.target.files[0]
     });
-    console.log(e.target.files[0]);
   };
 
   render() {
     const { text, theme, errors } = this.state;
+
     return (
       <section className="post">
         <form
