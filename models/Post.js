@@ -15,8 +15,7 @@ const PostSchema = new Schema({
     required: true
   },
   file: {
-    type: [String],
-    data: Buffer
+    type: [String]
   },
   name: {
     type: String
@@ -41,6 +40,15 @@ const PostSchema = new Schema({
       text: {
         type: String,
         required: true
+      },
+      name: {
+        type: String
+      },
+      avatar: {
+        type: String
+      },
+      file: {
+        type: [String]
       },
       date: {
         type: Date,

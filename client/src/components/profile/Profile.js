@@ -4,7 +4,7 @@ import { addProfileInformation } from "../../actions/profileActions";
 // import { imagePreview } from "../../utils/imagePreview";
 import { getCurrentProfile } from "../../actions/profileActions";
 import defaultAvatar from "../../img/default_avatar.png";
-import facebookSpinner from "../../img/facebookSpinner.gif";
+// import facebookSpinner from "../../img/facebookSpinner.gif";
 
 import "./style.css";
 

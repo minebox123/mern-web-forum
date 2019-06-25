@@ -9,7 +9,7 @@ class CreatePost extends Component {
   state = {
     text: "",
     theme: "",
-    image: "",
+    file: "",
     errors: {}
   };
 
@@ -27,24 +27,24 @@ class CreatePost extends Component {
     const newPost = {
       text: this.state.text,
       theme: this.state.theme,
-      image: this.state.image,
+      file: this.state.file,
       name: user.username,
       avatar: user.avatar
     };
+    console.log(newPost);
 
     this.props.createPost(newPost);
   };
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   fileSelectHandler = e => {
-    const param = e.target.files[0];
-    let reader = new FileReader();
-    reader.re(param);
+    const file = e.target.files[0];
+    let fd = new FormData();
+    fd.append("file", file);
 
     this.setState({
-      image: reader.result
+      file: file
     });
-    console.log(reader);
   };
 
   render() {
@@ -58,6 +58,7 @@ class CreatePost extends Component {
           action="/post"
           method="POST"
           encType="multipart/form-data"
+          name="file"
         >
           <div className="post__form--input">
             <label>Theme</label>
@@ -81,6 +82,7 @@ class CreatePost extends Component {
           </div>
           <div className="post__form--file">
             <label>Add Image</label>
+
             <input
               type="file"
               name="file"

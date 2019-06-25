@@ -13,25 +13,29 @@ class Posts extends Component {
 
   render() {
     const { posts } = this.props.post;
-    console.log(this.props.post);
+
     return (
       <section className="posts">
         <h1>Posts</h1>
         <ul>
           {posts !== null ? (
             posts.map(post => (
-              <li key={post._id}>
-                <h3>Theme: {post.theme}</h3>
-                <p>Text: {post.text}</p>
-                <p className="posts__comments ">
-                  <Link to="/post/comment/:id">Comments</Link>
-                  {post.comments.length}
-                </p>
-                <img
-                  src={`http://localhost:5000/${post.file[0]}`}
-                  alt="user's file"
-                  width="100px"
-                />
+              <li key={post._id} className="posts__list-item">
+                <div className="posts__list-item--user">
+                  <h2>
+                    <Link to={`/profile/${post.user}`}>{post.name}</Link>
+                  </h2>
+                </div>
+                <div className="posts__list-item--post">
+                  <Link to={`/post/${post._id}`}>
+                    <h3>Theme: {post.theme}</h3>
+                  </Link>
+
+                  <p className="posts__comments ">
+                    Comments:
+                    <span>{post.comments.length}</span>
+                  </p>
+                </div>
               </li>
             ))
           ) : (
@@ -48,8 +52,7 @@ Posts.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  post: state.post,
-  auth: state.auth
+  post: state.post
 });
 
 export default connect(

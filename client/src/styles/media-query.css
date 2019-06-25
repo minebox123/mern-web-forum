@@ -16,6 +16,14 @@
     .post {
         max-width: 1000px;
     }
+
+    .current-comment {
+        max-width: 1000px;
+    }
+
+    .editor {
+        max-width: 1000px;
+    }
 }
 
 /* Width < 1000 */
@@ -33,6 +41,14 @@
     }
 
     .post {
+        max-width: 800px;
+    }
+
+    .current-comment {
+        max-width: 800px;
+    }
+
+    .editor {
         max-width: 800px;
     }
 }

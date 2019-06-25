@@ -54,27 +54,23 @@ router.get("/all", (req, res) => {
 
 // Get created posts
 router.get(
-  "/my-posts/:user_id",
+  "/:post_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const errors = {};
-    Post.findOne({ user: req.params.user_id })
-      .then(profile => {
-        if (!profile) {
-          errors.noprofile = "Posts not found";
-          res.status(404).json(errors);
-        } else {
-          res.json(profile);
-        }
-      })
-      .catch(err => res.status(404).json({ profile: "Posts not found" }));
+    Post.findById(req.params.post_id)
+
+      .then(post => res.json(post))
+      .catch(err =>
+        res.status(404).json({ nopostfound: "No post found with that id" })
+      );
   }
 );
 
 // Create a post
 router.post(
   "/",
-  upload.single("image"),
+  upload.single("file"),
   passport.authenticate("jwt", { session: false }),
 
   (req, res) => {
@@ -83,15 +79,17 @@ router.post(
       return res.status(400).json(errors);
     }
     console.log(req.file);
+
     const newPost = new Post({
       text: req.body.text,
       theme: req.body.theme,
       name: req.body.name,
       avatar: req.body.avatar,
-      image: req.file.path,
+
       user: req.user.id
     });
-
+    if (req.file !== undefined) newPost.file = req.file.path;
+    console.log(newPost);
     newPost.save().then(post => res.json(post));
   }
 );
@@ -155,8 +153,10 @@ router.post(
         const newComment = {
           text: req.body.text,
           username: req.body.username,
-          user: req.user.id
+          user: req.user.id,
+          name: req.body.name
         };
+        if (req.file !== undefined) newComment.file = req.file.path;
 
         post.comments.push(newComment);
         post.save().then(post => res.json(post));

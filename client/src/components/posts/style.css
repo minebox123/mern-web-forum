@@ -8,17 +8,79 @@
     font-size: 22px;
 }
 
-.posts li {
+.posts a {
+    text-decoration: none;
+}
 
-    border: 1px solid red;
+.posts li {
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+}
+
+.image-wrapper {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.profile-pic {
+    display: inline;
+    margin: 0 auto;
+    margin-left: -25%;
+    height: 100%;
+    width: auto;
+}
+
+.posts__list-item--user {
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #eee;
+}
+
+.posts__list-item--user h2 {
+    font-size: 20px;
+
+}
+
+.posts__list-item--post {
+    width: 85%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.attachments {
     margin-top: 10px;
 }
 
+.attachments-files {
+    margin-top: 5px;
+    width: 50%;
+}
 
+.posts__list-item--post h3 {
+    padding-top: 5px;
+    font-size: 23px;
+}
 
+.posts__comments span {
+    margin-left: 5px;
+}
 
+.posts__comments {
+    margin-right: 20px;
 
-.posts h3 {}
+}
+
 
 /* Create Post */
 
@@ -35,14 +97,12 @@
     min-height: 600px;
 
     font-family: Arial, Helvetica, sans-serif;
-
 }
 
 .post__form h1 {
     font-size: 22px;
     text-align: center;
     padding: 20px 0px;
-
 }
 
 .post__form--input {
@@ -53,7 +113,6 @@
 }
 
 .post__form--input input {
-
     height: 30px;
     border: none;
     border-bottom: 2px solid #000;
@@ -74,9 +133,54 @@
 }
 
 .post small {
-    color: #FC212E;
+    color: #fc212e;
     margin-top: 10px;
     font-size: 14px;
     letter-spacing: 0.5px;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Current post */
+
+.post {
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 20px;
+    display: flex;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+}
+
+.post-user {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px 0;
+    border-right: 1px solid #eee;
+
+}
+
+.post-user h2 {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.post-text {
+    width: 85%;
+
+}
+
+.editor {
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 20px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    cursor: text;
+    padding: 16px;
+    border-radius: 5px;
+    margin-bottom: 2em;
+    box-shadow: inset 0px 1px 8px -3px #ABABAB;
+    background: #fefefe;
 }

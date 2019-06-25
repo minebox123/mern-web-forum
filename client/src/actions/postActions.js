@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ERRORS, GET_POSTS } from "./types";
+import { GET_ERRORS, GET_POSTS, GET_POST } from "./types";
 
 // GET ALL POSTS
 export const getAllPosts = () => dispatch => {
@@ -21,16 +21,49 @@ export const getAllPosts = () => dispatch => {
 
 // CREATE A POST
 export const createPost = (userInput, history) => dispatch => {
-  const headers = {
-    "Content-Type": "form-data"
-  };
   axios
-    .post("/post", userInput, headers)
+    .post("/post", userInput)
     .then(res => history.push("/post/all"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
+      })
+    );
+};
+
+// Add a comment
+export const addComment = (postId, userInput) => dispatch => {
+  axios
+    .post(`/post/comment/${postId}`, userInput)
+    .then(res => {
+      dispatch({
+        type: GET_POST,
+        payload: res.data
+      });
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+// Get a post by id
+export const getPostById = postId => dispatch => {
+  axios
+    .get(`/post/${postId}`)
+    .then(res =>
+      dispatch({
+        type: GET_POST,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_POST,
+        payload: null
       })
     );
 };

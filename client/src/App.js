@@ -15,6 +15,7 @@ import Login from "./components/auth/Login";
 import Profile from "./components/profile/Profile";
 import Posts from "./components/posts/Posts";
 import CreatePost from "./components/posts/CreatePost";
+import CreateComment from "./components/posts/CreateComment";
 // import Motors from "./components/forum/Motors";
 // import Pumps from "./components/forum/Pumps";
 // import AnotherStuff from "./components/forum/AnotherStuff";
@@ -54,6 +55,7 @@ function App() {
             <Switch>
               <Route exact path="/post" component={CreatePost} />
               <Route exact path="/post/all" component={Posts} />
+              <Route exact path="/post/:post_id" component={CreateComment} />
             </Switch>
           </div>
         </div>
