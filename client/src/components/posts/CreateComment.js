@@ -3,56 +3,47 @@ import PropTypes from "prop-types";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../../utils/Spinner";
+import Comments from "./Comments";
 import { addComment, getPostById } from "../../actions/postActions";
-import { Editor, EditorState } from "draft-js";
-import createToolbarPlugin from "draft-js-static-toolbar-plugin";
-import {
-  ItalicButton,
-  BoldButton,
-  UnderlineButton,
-  CodeButton,
-  HeadlineOneButton,
-  HeadlineTwoButton,
-  HeadlineThreeButton,
-  UnorderedListButton,
-  OrderedListButton,
-  BlockquoteButton,
-  CodeBlockButton
-} from "draft-js-buttons";
-
-const toolbarPlugin = createToolbarPlugin();
-const { Toolbar } = toolbarPlugin;
-const plugins = [toolbarPlugin];
 
 class CreateComment extends Component {
   state = {
     attachments: false,
-    editorState: EditorState.createEmpty()
-  };
-
-  onChange = editorState => this.setState({ editorState });
-  setEditor = editor => {
-    this.editor = editor;
-  };
-  focusEditor = () => {
-    if (this.editor) {
-      this.editor.focus();
-    }
+    comment: ""
   };
 
   componentDidMount() {
     this.props.getPostById(this.props.match.params.post_id);
-    this.focusEditor();
   }
+
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   onAttachmentsClick = e =>
     this.setState({
       attachments: !this.state.attachments
     });
 
+  onSubmit = e => {
+    e.preventDefault();
+
+    const { user } = this.props.auth;
+
+    const newComment = {
+      comment: this.state.comment,
+      username: user.username,
+      avatar: user.avatar
+    };
+    this.setState({
+      comment: ""
+    });
+
+    this.props.addComment(this.props.match.params.post_id, newComment);
+  };
+
   render() {
     const { post } = this.props.post;
     const { attachments } = this.state;
+
     return (
       <React.Fragment>
         {post !== null ? (
@@ -71,8 +62,8 @@ class CreateComment extends Component {
                 </h2>
               </div>
               <div className="post-text">
-                <h3>Theme: {post.theme}</h3>
-                <p>Text: {post.text}</p>
+                <h3>{post.theme}</h3>
+                <p>{post.text}</p>
                 {post.file.length === 0 ? null : (
                   <React.Fragment>
                     <p className="attachments">
@@ -93,33 +84,24 @@ class CreateComment extends Component {
                 )}
               </div>
             </div>
+            <Comments data={post.comments} />
 
-            <div onClick={this.focusEditor} className="editor">
-              <Editor
-                editorState={this.state.editorState}
-                onChange={this.onChange}
-                plugins={plugins}
-                ref={element => {
-                  this.editor = element;
-                }}
-              />
-              <Toolbar>
-                {// may be use React.Fragment instead of div to improve perfomance after React 16
-                externalProps => (
-                  <div>
-                    <BoldButton {...externalProps} />
-                    <ItalicButton {...externalProps} />
-                    <UnderlineButton {...externalProps} />
-                    <CodeButton {...externalProps} />
-                    {/* <Separator {...externalProps} />
-                    <HeadlinesButton {...externalProps} /> */}
-                    <UnorderedListButton {...externalProps} />
-                    <OrderedListButton {...externalProps} />
-                    <BlockquoteButton {...externalProps} />
-                    <CodeBlockButton {...externalProps} />
-                  </div>
-                )}
-              </Toolbar>
+            <div className="editor">
+              <form onSubmit={this.onSubmit}>
+                <div>
+                  <label>Add Comment</label>
+                  <textarea
+                    type="text"
+                    name="comment"
+                    onChange={this.onChange}
+                    value={this.state.comment}
+                    placeholder="Type something"
+                  />
+                </div>
+                <button type="submit" className="button">
+                  Submit
+                </button>
+              </form>
             </div>
           </React.Fragment>
         ) : (

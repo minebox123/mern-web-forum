@@ -23,25 +23,18 @@ const PostSchema = new Schema({
   avatar: {
     type: String
   },
-  likes: [
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: "users"
-      }
-    }
-  ],
+
   comments: [
     {
       user: {
         type: Schema.Types.ObjectId,
         ref: "users"
       },
-      text: {
+      comment: {
         type: String,
         required: true
       },
-      name: {
+      username: {
         type: String
       },
       avatar: {
@@ -50,6 +43,14 @@ const PostSchema = new Schema({
       file: {
         type: [String]
       },
+      likes: [
+        {
+          user: {
+            type: Schema.Types.ObjectId,
+            ref: "users"
+          }
+        }
+      ],
       date: {
         type: Date,
         default: Date.now

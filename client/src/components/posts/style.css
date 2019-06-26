@@ -47,7 +47,6 @@
 
 .posts__list-item--user h2 {
     font-size: 20px;
-
 }
 
 .posts__list-item--post {
@@ -78,9 +77,7 @@
 
 .posts__comments {
     margin-right: 20px;
-
 }
-
 
 /* Create Post */
 
@@ -158,7 +155,6 @@
     align-items: center;
     margin: 5px 0;
     border-right: 1px solid #eee;
-
 }
 
 .post-user h2 {
@@ -168,19 +164,119 @@
 
 .post-text {
     width: 85%;
+    margin-top: 10px;
+}
 
+.post-text h3 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.post-text p {
+    margin-top: 10px;
 }
 
 .editor {
+    height: 50px;
+}
+
+.editor form {
+    width: 1200px;
+    margin: 0 auto;
+
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    margin-top: 20px;
+
+}
+
+.editor div {
+    display: flex;
+    flex-direction: column;
+}
+
+.editor label {
+
+    margin: 10px 0 10px 20px;
+}
+
+.editor textarea {
+    background-color: #f7f7f7;
+    font-size: 18px;
+    min-height: 40px;
+    max-width: 80%;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 5px 0 0 10px;
+    margin-left: 20px;
+}
+
+.comments {
     width: 1200px;
     margin: 0 auto;
     margin-top: 20px;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    cursor: text;
-    padding: 16px;
-    border-radius: 5px;
-    margin-bottom: 2em;
-    box-shadow: inset 0px 1px 8px -3px #ABABAB;
-    background: #fefefe;
+
+}
+
+.comments li {
+    display: flex;
+
+    border: 1px solid #e6e6e6;
+    margin-top: 10px;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90px;
+    padding: 10px 0;
+    border-right: 1px solid #eee;
+}
+
+.profile p {
+    margin-top: 5px;
+}
+
+.message {
+    width: 85%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.message p {
+    width: 74%;
+    font-size: 18px;
+}
+
+.message span {
+    font-size: 16px;
+    color: #7f7f7f;
+    margin-right: 10px;
+}
+
+.rating {
+    margin-top: 20px;
+
+}
+
+.fa-thumbs-up {
+    cursor: pointer;
+    /* color: #44A8FC */
+}
+
+.fa-thumbs-down {
+    margin-left: 30px;
+    cursor: pointer;
+}
+
+
+
+@media only screen and (max-width: 1000px) {
+    .message p {
+        width: 65%;
+    }
+
+
 }

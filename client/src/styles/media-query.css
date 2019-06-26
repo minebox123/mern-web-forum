@@ -21,7 +21,7 @@
         max-width: 1000px;
     }
 
-    .editor {
+    .editor form {
         max-width: 1000px;
     }
 }
@@ -48,7 +48,11 @@
         max-width: 800px;
     }
 
-    .editor {
+    .editor form {
+        max-width: 800px;
+    }
+
+    .comments {
         max-width: 800px;
     }
 }

@@ -96,22 +96,25 @@ router.post(
 
 // Like post
 router.post(
-  "/like/:id",
+  "/like/:post_id/:comment_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Profile.findOne({ user: req.user._id }).then(profile => {
-      Post.findById(req.params.id).then(post => {
-        if (
-          post.likes.filter(like => like.user.toString() === req.user.id)
-            .length > 0
-        ) {
-          return res
-            .status(400)
-            .json({ alreadyLiked: "You already liked this post" });
-        } else {
-          post.likes.push({ user: req.user._id });
-          post.save().then(post => res.json(post));
-        }
+      Post.findById(req.params.post_id).then(post => {
+        post.comments.filter(comment => {
+          if (
+            (comment._id == req.params.comment_id).likes.filter(
+              like => like.user == req.user._id
+            ).length > 0
+          ) {
+            return res
+              .status(400)
+              .json({ alreadyliked: "You have already liked this comment" });
+          } else {
+            comment.likes.push({ user: req.user._id });
+            comment.save().then(post => res.json(comment));
+          }
+        });
       });
     });
   }
@@ -150,11 +153,12 @@ router.post(
   (req, res) => {
     Post.findById(req.params.id)
       .then(post => {
+        console.log(req.body);
         const newComment = {
-          text: req.body.text,
+          comment: req.body.comment,
           username: req.body.username,
           user: req.user.id,
-          name: req.body.name
+          avatar: req.body.avatar
         };
         if (req.file !== undefined) newComment.file = req.file.path;
 

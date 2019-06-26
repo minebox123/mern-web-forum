@@ -67,3 +67,20 @@ export const getPostById = postId => dispatch => {
       })
     );
 };
+
+// Like a post
+export const likePost = (postId, commentId) => dispatch => {
+  axios
+    .post(`/post/like/${postId}/${commentId}`)
+    .then(res => {
+      dispatch(getAllPosts());
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+// Unlike a post
