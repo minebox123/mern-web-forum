@@ -101,47 +101,108 @@ router.post(
   (req, res) => {
     Profile.findOne({ user: req.user._id }).then(profile => {
       Post.findById(req.params.post_id).then(post => {
-        post.comments.filter(comment => {
+        const currentPost = post.comments.filter(
+          comment => comment._id == req.params.comment_id
+        );
+
+        if (
+          currentPost[0].likes.filter(like => like.user == req.user.id).length >
+          0
+        ) {
+          const removeItem = post.comments.map(comment =>
+            comment._id.toString().indexOf(req.params.comment_id)
+          );
+          currentPost[0].likes.splice(removeItem, 1);
+          post.save().then(post => res.json(post));
+        } else {
           if (
-            (comment._id == req.params.comment_id).likes.filter(
-              like => like.user == req.user._id
+            currentPost[0].dislikes.filter(
+              dislike => dislike.user == req.user.id
             ).length > 0
           ) {
-            return res
-              .status(400)
-              .json({ alreadyliked: "You have already liked this comment" });
+            // Remove dislike if it exists
+            const removeItem = post.comments.map(comment =>
+              comment._id.toString().indexOf(req.params.comment_id)
+            );
+            currentPost[0].dislikes.splice(removeItem, 1);
+            // Like the post
+            currentPost[0].likes.push({ user: req.user._id });
+            post.save().then(post => res.json(post));
           } else {
-            comment.likes.push({ user: req.user._id });
-            comment.save().then(post => res.json(comment));
+            currentPost[0].likes.push({ user: req.user._id });
+            post.save().then(post => res.json(post));
           }
-        });
+        }
       });
     });
   }
 );
 
+// // Remove Like
+// router.delete(
+//   "/remove-like/:post_id/:comment_id",
+//   passport.authenticate("jwt", { session: false }),
+//   (req, res) => {
+//     Profile.findOne({ user: req.user.id }).then(profile => {
+//       Post.findById(req.params.post_id)
+//         .then(post => {
+//           const currentPost = post.comments.filter(
+//             comment => comment._id == req.params.comment_Id
+//           );
+//           if (
+//             currentPost[0].likes.filter(like => like.user == req.user.id)
+//               .length > 0
+//           ) {
+//             const removeItem = post.comments.map(comment =>
+//               comment._id.toString().inexOf(req.params.comment_id)
+//             );
+//             currentPost[0].likes.splice(removeItem, 1);
+//             post.save().then(post => res.json(post));
+//           }
+//         })
+//         .catch(err => res.status(404).json({ postnotfound: "No post found" }));
+//     });
+//   }
+// );
+
 // Dislike post
 router.post(
-  "/dislike/:id",
+  "/dislike/:post_id/:comment_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Profile.findOne({ user: req.user._id }).then(profile => {
-      Post.findById(req.params.id)
-        .then(post => {
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      Post.findById(req.params.post_id).then(post => {
+        const currentPost = post.comments.filter(
+          comment => comment._id == req.params.comment_id
+        );
+        if (
+          currentPost[0].dislikes.filter(like => like.user == req.user.id)
+            .length > 0
+        ) {
+          const removeItem = post.comments.map(comment =>
+            comment._id.toString().indexOf(req.params.comment_id)
+          );
+          currentPost[0].dislikes.splice(removeItem, 1);
+          post.save().then(post => res.json(post));
+        } else {
           if (
-            post.likes.filter(like => like.user.toString() === req.user.id)
-              .length === 0
+            currentPost[0].likes.filter(like => like.user == req.user.id)
+              .length > 0
           ) {
-            res.status(400).json({ haventliked: "You have not liked yet" });
+            // Remove like if it exists
+            const removeItem = post.comments.map(comment =>
+              comment._id.toString().indexOf(req.params.comment_id)
+            );
+            currentPost[0].likes.splice(removeItem, 1);
+            // Dislike the post
+            currentPost[0].dislikes.push({ user: req.user._id });
+            post.save().then(post => res.json(post));
           } else {
-            const removeIndex = post.likes
-              .map(item => item.user.toString())
-              .indexOf(req.user.id);
-            post.likes.splice(removeIndex, 1);
+            currentPost[0].dislikes.push({ user: req.user._id });
             post.save().then(post => res.json(post));
           }
-        })
-        .catch(err => res.status(404).json({ postnotfound: "No post found" }));
+        }
+      });
     });
   }
 );
@@ -153,7 +214,6 @@ router.post(
   (req, res) => {
     Post.findById(req.params.id)
       .then(post => {
-        console.log(req.body);
         const newComment = {
           comment: req.body.comment,
           username: req.body.username,

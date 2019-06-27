@@ -84,3 +84,16 @@ export const likePost = (postId, commentId) => dispatch => {
 };
 
 // Unlike a post
+export const dislikePost = (postId, commentId) => dispatch => {
+  axios
+    .post(`/post/dislike/${postId}/${commentId}`)
+    .then(res => {
+      dispatch(getAllPosts());
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};

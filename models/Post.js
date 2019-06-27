@@ -51,6 +51,14 @@ const PostSchema = new Schema({
           }
         }
       ],
+      dislikes: [
+        {
+          user: {
+            type: Schema.Types.ObjectId,
+            ref: "users"
+          }
+        }
+      ],
       date: {
         type: Date,
         default: Date.now

@@ -30,11 +30,12 @@
 }
 
 .profile-pic {
+    height: 100%;
+    width: auto;
     display: inline;
     margin: 0 auto;
     margin-left: -25%;
-    height: 100%;
-    width: auto;
+
 }
 
 .posts__list-item--user {
@@ -46,7 +47,7 @@
 }
 
 .posts__list-item--user h2 {
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .posts__list-item--post {
@@ -158,7 +159,7 @@
 }
 
 .post-user h2 {
-    font-size: 20px;
+    font-size: 16px;
     margin-top: 10px;
 }
 
@@ -187,7 +188,6 @@
     border: 1px solid #e6e6e6;
     border-radius: 5px;
     margin-top: 20px;
-
 }
 
 .editor div {
@@ -196,7 +196,6 @@
 }
 
 .editor label {
-
     margin: 10px 0 10px 20px;
 }
 
@@ -215,7 +214,6 @@
     width: 1200px;
     margin: 0 auto;
     margin-top: 20px;
-
 }
 
 .comments li {
@@ -258,25 +256,28 @@
 
 .rating {
     margin-top: 20px;
-
+    display: flex;
+    align-items: center;
 }
 
 .fa-thumbs-up {
     cursor: pointer;
-    /* color: #44A8FC */
+
+    margin-right: 10px;
 }
 
 .fa-thumbs-down {
     margin-left: 30px;
     cursor: pointer;
+    margin-right: 10px;
 }
 
-
+.text-info {
+    color: #44A8FC;
+}
 
 @media only screen and (max-width: 1000px) {
     .message p {
         width: 65%;
     }
-
-
 }
