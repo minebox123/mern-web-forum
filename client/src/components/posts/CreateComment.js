@@ -4,12 +4,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../../utils/Spinner";
 import Comments from "./Comments";
-import { addComment, getPostById } from "../../actions/postActions";
+import { addComment, getPostById, deletePost } from "../../actions/postActions";
 
 class CreateComment extends Component {
   state = {
     attachments: false,
-    comment: ""
+    comment: "",
+    dropDownMenu: false
   };
 
   componentDidMount() {
@@ -18,10 +19,17 @@ class CreateComment extends Component {
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
-  onAttachmentsClick = e =>
-    this.setState({
-      attachments: !this.state.attachments
-    });
+  onAttachmentsClick = () =>
+    this.setState({ attachments: !this.state.attachments });
+
+  onMenuClick = () => {
+    if (!this.state.dropDownMenu) {
+      document.addEventListener("click", this.handleOutsideClick, false);
+    } else {
+      document.removeEventListener("click", this.handleOutsideClick, false);
+    }
+    this.setState({ dropDownMenu: !this.state.dropDownMenu });
+  };
 
   onSubmit = e => {
     e.preventDefault();
@@ -40,9 +48,20 @@ class CreateComment extends Component {
     this.props.addComment(this.props.match.params.post_id, newComment);
   };
 
+  onDeleteClick = postId => {
+    this.props.deletePost(postId);
+  };
+
+  handleOutsideClick = e => {
+    if (this.node.contains(e.target)) {
+      return;
+    }
+    this.onMenuClick();
+  };
+
   render() {
     const { post } = this.props.post;
-    const { attachments } = this.state;
+    const { attachments, dropDownMenu } = this.state;
 
     return (
       <React.Fragment>
@@ -60,6 +79,23 @@ class CreateComment extends Component {
                 <h2 onClick={this.profileHandler} id={post.user}>
                   {post.name}
                 </h2>
+                <i className="fas fa-ellipsis-h" onClick={this.onMenuClick} />
+                {dropDownMenu ? (
+                  <div
+                    className="drop-down-menu"
+                    ref={node => {
+                      this.node = node;
+                    }}
+                  >
+                    <ul>
+                      <li>Copy Link</li>
+                      <li>Edit</li>
+                      <li onClick={this.onDeleteClick.bind(this, post._id)}>
+                        Delete Post
+                      </li>
+                    </ul>
+                  </div>
+                ) : null}
               </div>
               <div className="post-text">
                 <h3>{post.theme}</h3>
@@ -124,5 +160,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addComment, getPostById }
+  { addComment, getPostById, deletePost }
 )(CreateComment);

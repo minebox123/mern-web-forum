@@ -9,7 +9,7 @@ class CreatePost extends Component {
   state = {
     text: "",
     theme: "",
-    file: "",
+    file: null,
     errors: {}
   };
 
@@ -21,29 +21,26 @@ class CreatePost extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    const form = new FormData();
+    form.append("file", this.state.file);
 
     const { user } = this.props.auth;
 
     const newPost = {
       text: this.state.text,
       theme: this.state.theme,
-      file: this.state.file,
+      file: form,
       name: user.username,
       avatar: user.avatar
     };
-    console.log(newPost);
 
     this.props.createPost(newPost);
   };
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   fileSelectHandler = e => {
-    const file = e.target.files[0];
-    let fd = new FormData();
-    fd.append("file", file);
-
     this.setState({
-      file: file
+      file: e.target.files[0]
     });
   };
 
@@ -58,7 +55,6 @@ class CreatePost extends Component {
           action="/post"
           method="POST"
           encType="multipart/form-data"
-          name="file"
         >
           <div className="post__form--input">
             <label>Theme</label>

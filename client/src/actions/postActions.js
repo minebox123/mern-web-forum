@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ERRORS, GET_POSTS, GET_POST } from "./types";
+import { GET_ERRORS, GET_POSTS, GET_POST, DELETE_POST } from "./types";
 
 // GET ALL POSTS
 export const getAllPosts = () => dispatch => {
@@ -21,8 +21,13 @@ export const getAllPosts = () => dispatch => {
 
 // CREATE A POST
 export const createPost = (userInput, history) => dispatch => {
+  const options = {
+    headers: {
+      "mime-type": "multipart/form-data"
+    }
+  };
   axios
-    .post("/post", userInput)
+    .post("/post", userInput, options)
     .then(res => history.push("/post/all"))
     .catch(err =>
       dispatch({
@@ -90,6 +95,24 @@ export const dislikePost = (postId, commentId) => dispatch => {
     .then(res => {
       dispatch(getAllPosts());
     })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+// Delete post
+export const deletePost = postId => dispatch => {
+  axios
+    .delete(`/post/delete/${postId}`)
+    .then(res =>
+      dispatch({
+        type: DELETE_POST,
+        payload: postId
+      })
+    )
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

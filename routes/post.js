@@ -79,7 +79,6 @@ router.post(
       return res.status(400).json(errors);
     }
     console.log(req.file);
-
     const newPost = new Post({
       text: req.body.text,
       theme: req.body.theme,
@@ -137,33 +136,6 @@ router.post(
     });
   }
 );
-
-// // Remove Like
-// router.delete(
-//   "/remove-like/:post_id/:comment_id",
-//   passport.authenticate("jwt", { session: false }),
-//   (req, res) => {
-//     Profile.findOne({ user: req.user.id }).then(profile => {
-//       Post.findById(req.params.post_id)
-//         .then(post => {
-//           const currentPost = post.comments.filter(
-//             comment => comment._id == req.params.comment_Id
-//           );
-//           if (
-//             currentPost[0].likes.filter(like => like.user == req.user.id)
-//               .length > 0
-//           ) {
-//             const removeItem = post.comments.map(comment =>
-//               comment._id.toString().inexOf(req.params.comment_id)
-//             );
-//             currentPost[0].likes.splice(removeItem, 1);
-//             post.save().then(post => res.json(post));
-//           }
-//         })
-//         .catch(err => res.status(404).json({ postnotfound: "No post found" }));
-//     });
-//   }
-// );
 
 // Dislike post
 router.post(
@@ -253,4 +225,27 @@ router.delete(
       .catch(err => res.status(404).json({ postnotfound: "No post found" }));
   }
 );
+
+// Delete post if you've added it
+router.delete(
+  "/delete/:post_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      Post.findById(req.params.post_id).then(post => {
+        if (post.user.toString() !== req.user.id) {
+          return res.status(401).json({ notauthorized: "User not authorized" });
+        }
+
+        post
+          .remove()
+          .then(() => res.json({ success: true }))
+          .catch(err =>
+            res.status(404).json({ postnotfound: "No post found" })
+          );
+      });
+    });
+  }
+);
+
 module.exports = router;
