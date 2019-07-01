@@ -10,7 +10,8 @@ class CreateComment extends Component {
   state = {
     attachments: false,
     comment: "",
-    dropDownMenu: false
+    dropDownMenu: false,
+    file: ""
   };
 
   componentDidMount() {
@@ -36,16 +37,22 @@ class CreateComment extends Component {
 
     const { user } = this.props.auth;
 
-    const newComment = {
-      comment: this.state.comment,
-      username: user.username,
-      avatar: user.avatar
-    };
+    const form = new FormData();
+    form.append("comment", this.state.comment);
+    form.append("username", user.username);
+    form.append("avatar", user.avatar);
+    form.append("file", this.state.file);
+
+    // const newComment = {
+    //   comment: this.state.comment,
+    //   username: user.username,
+    //   avatar: user.avatar
+    // };
+
+    this.props.addComment(this.props.match.params.post_id, form);
     this.setState({
       comment: ""
     });
-
-    this.props.addComment(this.props.match.params.post_id, newComment);
   };
 
   onDeleteClick = postId => {
@@ -58,6 +65,8 @@ class CreateComment extends Component {
     }
     this.onMenuClick();
   };
+
+  fileSelectHandler = e => this.setState({ file: e.target.files[0] });
 
   render() {
     const { post } = this.props.post;
@@ -132,6 +141,14 @@ class CreateComment extends Component {
                     onChange={this.onChange}
                     value={this.state.comment}
                     placeholder="Type something"
+                  />
+                </div>
+                <div>
+                  <label>Add attachments</label>
+                  <input
+                    type="file"
+                    name="file"
+                    onChange={this.fileSelectHandler}
                   />
                 </div>
                 <button type="submit" className="button">

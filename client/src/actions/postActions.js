@@ -21,13 +21,8 @@ export const getAllPosts = () => dispatch => {
 
 // CREATE A POST
 export const createPost = (userInput, history) => dispatch => {
-  const options = {
-    headers: {
-      "mime-type": "multipart/form-data"
-    }
-  };
   axios
-    .post("/post", userInput, options)
+    .post("/post", userInput)
     .then(res => history.push("/post/all"))
     .catch(err =>
       dispatch({

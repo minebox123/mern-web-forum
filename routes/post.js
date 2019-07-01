@@ -78,7 +78,7 @@ router.post(
     if (!isValid) {
       return res.status(400).json(errors);
     }
-    console.log(req.file);
+
     const newPost = new Post({
       text: req.body.text,
       theme: req.body.theme,
@@ -88,7 +88,7 @@ router.post(
       user: req.user.id
     });
     if (req.file !== undefined) newPost.file = req.file.path;
-    console.log(newPost);
+
     newPost.save().then(post => res.json(post));
   }
 );
@@ -182,10 +182,12 @@ router.post(
 // Post a comment
 router.post(
   "/comment/:id",
+  upload.single("file"),
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Post.findById(req.params.id)
       .then(post => {
+        console.log(req.body);
         const newComment = {
           comment: req.body.comment,
           username: req.body.username,

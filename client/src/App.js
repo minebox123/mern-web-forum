@@ -16,6 +16,7 @@ import Profile from "./components/profile/Profile";
 import Posts from "./components/posts/Posts";
 import CreatePost from "./components/posts/CreatePost";
 import CreateComment from "./components/posts/CreateComment";
+import CurrentProfile from "./components/profile/CurrentProfile";
 // import Motors from "./components/forum/Motors";
 // import Pumps from "./components/forum/Pumps";
 // import AnotherStuff from "./components/forum/AnotherStuff";
@@ -51,6 +52,11 @@ function App() {
             <Route path="/login" component={Login} />
             <Switch>
               <PrivateRoute exact path="/profile" component={Profile} />
+              <Route
+                exact
+                path="/profile/:user_id"
+                component={CurrentProfile}
+              />
             </Switch>
             <Switch>
               <Route exact path="/post" component={CreatePost} />

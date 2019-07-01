@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { createPost } from "../../actions/postActions";
+
 import "./style.css";
 
 class CreatePost extends Component {
@@ -21,20 +22,31 @@ class CreatePost extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const form = new FormData();
-    form.append("file", this.state.file);
 
     const { user } = this.props.auth;
 
-    const newPost = {
-      text: this.state.text,
-      theme: this.state.theme,
-      file: form,
-      name: user.username,
-      avatar: user.avatar
-    };
+    const form = new FormData();
+    form.append("file", this.state.file);
+    form.append("theme", this.state.theme);
+    form.append("text", this.state.text);
+    form.append("name", user.username);
+    form.append("avatar", user.avatar);
 
-    this.props.createPost(newPost);
+    // const newPost = {
+    //   text: this.state.text,
+    //   theme: this.state.theme,
+    //   file: form,
+    //   name: user.username,
+    //   avatar: user.avatar
+    // };
+
+    // axios({
+    //   method: "post",
+    //   url: "/post",
+    //   data: newPost,
+    //   config: { headers: { "Content-Type": "multipart/form-data" } }
+    // });
+    this.props.createPost(form);
   };
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
@@ -49,13 +61,7 @@ class CreatePost extends Component {
 
     return (
       <section className="post">
-        <form
-          onSubmit={this.onSubmit}
-          className="post__form"
-          action="/post"
-          method="POST"
-          encType="multipart/form-data"
-        >
+        <form onSubmit={this.onSubmit} className="post__form">
           <div className="post__form--input">
             <label>Theme</label>
             <input

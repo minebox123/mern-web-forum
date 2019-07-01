@@ -39,6 +39,7 @@ class Comments extends Component {
 
   render() {
     const { data } = this.props;
+    console.log(data);
     return (
       <div className="comments">
         <h2>Comments</h2>
@@ -56,7 +57,17 @@ class Comments extends Component {
                 <p>{comment.username}</p>
               </div>
               <div className="message">
-                <p>{comment.comment}</p>
+                <div>
+                  <p>{comment.comment}</p>
+                  {comment.file.map(image => (
+                    <img
+                      src={`http://localhost:5000/${image}`}
+                      alt="attachment"
+                      key={comment._id}
+                      className="attachment"
+                    />
+                  ))}
+                </div>
                 <div>
                   <span>
                     Posted:{" "}

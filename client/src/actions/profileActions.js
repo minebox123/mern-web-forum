@@ -30,3 +30,21 @@ export const getCurrentProfile = () => dispatch => {
       })
     );
 };
+
+// Get user's profile
+export const getUserProfile = userId => dispatch => {
+  axios
+    .get(`/profile/${userId}`)
+    .then(res =>
+      dispatch({
+        type: GET_CURRENT_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};

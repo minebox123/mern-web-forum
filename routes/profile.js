@@ -84,7 +84,7 @@ router.post(
 );
 
 // Get a user's profile
-router.get("/user/:user_id", (req, res) => {
+router.get("/:user_id", (req, res) => {
   Profile.findById(req.params.user_id)
     .then(profile => res.json(profile))
     .catch(err =>

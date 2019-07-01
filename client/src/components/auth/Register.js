@@ -40,15 +40,14 @@ class Register extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    const newUser = {
-      username: this.state.username,
-      email: this.state.email,
-      avatar: this.state.avatar,
-      password: this.state.password,
-      password2: this.state.password2
-    };
+    const form = new FormData();
+    form.append("username", this.state.username);
+    form.append("email", this.state.email);
+    form.append("avatar", this.state.avatar);
+    form.append("password", this.state.password);
+    form.append("password2", this.state.password2);
 
-    this.props.registerUser(newUser, this.props.history);
+    this.props.registerUser(form, this.props.history);
   };
 
   render() {
@@ -60,9 +59,6 @@ class Register extends Component {
         <form
           className="landing-page__registration-form"
           onSubmit={this.onSubmit}
-          action="/register"
-          method="post"
-          encType="multipart/form-data"
         >
           <div className="registration-form">
             <label>Enter your username</label>
