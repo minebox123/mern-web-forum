@@ -8,6 +8,7 @@ const multer = require("multer");
 const users = require("./routes/users");
 const profile = require("./routes/profile");
 const post = require("./routes/post");
+const message = require("./routes/message");
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.get("/", (req, res) => {
 app.use("/", users);
 app.use("/profile", profile);
 app.use("/post", post);
+app.use("/conversations", message);
 
 const port = process.env.PORT || 5000;
 

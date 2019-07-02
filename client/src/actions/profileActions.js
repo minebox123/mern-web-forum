@@ -32,7 +32,7 @@ export const getCurrentProfile = () => dispatch => {
 };
 
 // Get user's profile
-export const getUserProfile = userId => dispatch => {
+export const getProfileById = userId => dispatch => {
   axios
     .get(`/profile/${userId}`)
     .then(res =>

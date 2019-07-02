@@ -85,7 +85,8 @@ router.post(
 
 // Get a user's profile
 router.get("/:user_id", (req, res) => {
-  Profile.findById(req.params.user_id)
+  Profile.findOne({ user: req.params.user_id })
+    .populate("user", ["username", "avatar", "date"])
     .then(profile => res.json(profile))
     .catch(err =>
       res.status(404).json({ nouserfound: "No user found with that id" })

@@ -26,6 +26,8 @@
     }
 }
 
+
+
 /* Width < 1000 */
 @media only screen and (max-width: 1000px) {
     .header__container {
@@ -53,6 +55,10 @@
     }
 
     .comments {
+        max-width: 800px;
+    }
+
+    .current-profile {
         max-width: 800px;
     }
 }
