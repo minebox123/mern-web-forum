@@ -1,0 +1,17 @@
+.conversation-field {
+    width: 600px;
+    margin: 0 auto;
+    border: 1px solid red;
+    height: 1000px;
+    margin-top: 30px;
+}
+
+.conversation-field__header {
+    height: 40px;
+    border: 1px solid blue;
+}
+
+.conversation-field__textarea {
+    position: absolute;
+
+}

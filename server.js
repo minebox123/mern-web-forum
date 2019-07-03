@@ -2,7 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-
+const socketApi = require("./routes/socket");
+const io = socketApi.io;
 const multer = require("multer");
 
 const users = require("./routes/users");
@@ -46,4 +47,8 @@ app.use("/conversations", message);
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => console.log(`Server runs on port ${port}`));
+const server = app.listen(port, () =>
+  console.log(`Server runs on port ${port}`)
+);
+
+io.attach(server);

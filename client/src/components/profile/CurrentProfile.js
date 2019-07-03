@@ -45,7 +45,9 @@ class CurrentProfile extends Component {
                   alt="avatar"
                 />
                 <h2>{profile.user.username}</h2>
-                <Link to="/conversations">Write a Message</Link>
+                <Link to={`/conversations/createConv/${profile.user._id}`}>
+                  Write a Message
+                </Link>
               </div>
               <ul>
                 <li>

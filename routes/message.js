@@ -7,46 +7,40 @@ const multer = require("multer");
 const Conversation = require("../models/Conversation");
 const Message = require("../models/Message");
 
-router.get("/", (req, res) => {
-  res.json({
-    msg: "hello"
-  });
-});
+// router.get("/", (req, res) => {
+//   res.json({
+//     msg: "hello"
+//   });
+// });
 
 // Get all conversations
 router.get(
   "/",
-  passport.authenticate("jst", { session: false }),
-  (req, res, next) => {
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
     Conversation.find({ participants: req.user._id })
-      .select("_id")
-      .exec((err, conversations) => {
-        if (err) {
-          res.send({ error: err });
-          return next(err);
-        } else {
-          let fullConversations = [];
+      .then(conversations => {
+        let allConversations = [];
+        if (conversations) {
           conversations.forEach(conversation => {
-            Message.find({ conversationsId: conversation._id })
+            Message.find({ conversationId: conversation._id })
               .sort({ date: -1 })
               .limit(1)
               .populate("user", ["username", "avatar"])
-              .exec((err, message) => {
-                if (err) {
-                  res.send({ error: err });
-                  return next(err);
-                } else {
-                  fullConversations.push(message);
-                  if (fullConversations.length === conversation.length) {
-                    return res
-                      .status(200)
-                      .json({ conversation: fullConversations });
-                  }
+              .then(message => {
+                allConversations.push(message);
+                if (allConversations.length === conversations.length) {
+                  return res
+                    .status(200)
+                    .json({ conversations: allConversations });
                 }
               });
           });
+        } else {
+          res.status(404).json({ notfound: "Conversations not found" });
         }
-      });
+      })
+      .catch(err => res.status(404).json(err));
   }
 );
 
@@ -54,16 +48,14 @@ router.get(
 router.get(
   "/:conversationId",
   passport.authenticate("jwt", { session: false }),
-  (req, res, next) => {
+  (req, res) => {
     Message.find({ conversationId: req.params.conversationId })
-      .sort({ date: -1 })
       .populate("user", ["username", "avatar"])
-      .exec((err, messages) => {
-        if (err) {
-          res.send({ error: err });
-          return next(err);
-        } else {
+      .then(messages => {
+        if (messages) {
           res.status(200).json({ conversation: messages });
+        } else {
+          res.status(404).json({ notfound: "No messages found" });
         }
       });
   }
@@ -71,7 +63,7 @@ router.get(
 
 // Write a message
 router.post(
-  "/:recipientId",
+  "/createConv/:recipientId",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     if (!req.params.recipientId) {
@@ -124,4 +116,16 @@ router.post(
   }
 );
 
+router.delete(
+  "/conversations/:conversationId",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    console.log(req.params);
+    Conversation.findOneAndRemove({
+      conversationId: req.params.conversationId
+    }).then(conversation => {
+      res.status(200).json({ message: "Conversation removed" });
+    });
+  }
+);
 module.exports = router;

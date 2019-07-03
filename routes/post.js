@@ -187,7 +187,6 @@ router.post(
   (req, res) => {
     Post.findById(req.params.id)
       .then(post => {
-        console.log(req.body);
         const newComment = {
           comment: req.body.comment,
           username: req.body.username,

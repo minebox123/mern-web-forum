@@ -17,6 +17,7 @@ import Posts from "./components/posts/Posts";
 import CreatePost from "./components/posts/CreatePost";
 import CreateComment from "./components/posts/CreateComment";
 import CurrentProfile from "./components/profile/CurrentProfile";
+import WriteMessage from "./components/conversation/WriteMessage";
 // import Motors from "./components/forum/Motors";
 // import Pumps from "./components/forum/Pumps";
 // import AnotherStuff from "./components/forum/AnotherStuff";
@@ -62,6 +63,13 @@ function App() {
               <Route exact path="/post" component={CreatePost} />
               <Route exact path="/post/all" component={Posts} />
               <Route exact path="/post/:post_id" component={CreateComment} />
+            </Switch>
+            <Switch>
+              <Route
+                exact
+                path="/conversations/createConv/:recipientId"
+                component={WriteMessage}
+              />
             </Switch>
           </div>
         </div>
