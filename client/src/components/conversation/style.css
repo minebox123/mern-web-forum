@@ -1,17 +1,83 @@
 .conversation-field {
     width: 600px;
     margin: 0 auto;
-    border: 1px solid red;
-    height: 1000px;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    height: auto;
+    position: relative;
     margin-top: 30px;
+
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .conversation-field__header {
-    height: 40px;
-    border: 1px solid blue;
+
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e6e6e6
+}
+
+.conversation-field__header a {
+    margin-left: 20px;
+}
+
+.stuff {
+    margin-right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 70px;
+}
+
+.messages {
+    height: 100%;
+
+}
+
+.messages li {
+    margin-top: 20px;
+
+}
+
+.sender p {
+    background-color: #0c63f0;
+    color: #fff;
+    width: 300px;
+    border-radius: 5px;
+    padding: 5px 10px
+}
+
+.recipient p {
+    background-color: #e6e6e6;
+    color: #000;
+    width: 300px;
+    border-radius: 5px;
+    padding: 5px 10px
 }
 
 .conversation-field__textarea {
-    position: absolute;
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 20px;
+    z-index: 111;
+    width: 600px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #ebebeb;
+}
 
+.conversation-field__textarea textarea {
+    width: 400px;
+    font-size: 14px;
+    min-height: 17px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid rgb(214, 214, 214);
+    padding: 10px 0 0 10px;
+    resize: none;
 }

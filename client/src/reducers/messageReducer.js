@@ -1,4 +1,4 @@
-import { SEND_MESSAGE } from "../actions/types";
+import { SEND_MESSAGE, RECEIVE_MESSAGES } from "../actions/types";
 
 const initialState = {
   message: null,
@@ -7,7 +7,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case SEND_MESSAGE:
+    case RECEIVE_MESSAGES:
       return {
         ...state,
         messages: action.payload

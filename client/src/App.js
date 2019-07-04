@@ -67,7 +67,7 @@ function App() {
             <Switch>
               <Route
                 exact
-                path="/conversations/createConv/:recipientId"
+                path="/conversations/:recipientId"
                 component={WriteMessage}
               />
             </Switch>
