@@ -14,6 +14,9 @@ const MessageSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "users"
   },
+  file: {
+    type: String
+  },
   date: {
     type: Date,
     default: Date.now

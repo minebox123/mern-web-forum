@@ -1,19 +1,49 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { sendMessage } from "../../actions/messageActions";
+import { loadMessages, sendMessage } from "../../actions/messageActions";
 import { Link } from "react-router-dom";
 import "./style.css";
 
 class WriteMessage extends Component {
+  state = {
+    text: "",
+    file: ""
+  };
+
   componentDidMount() {
-    this.props.sendMessage("5d1c9b544fb4d307d85849cc");
+    this.props.loadMessages("5d1c9b544fb4d307d85849cc");
   }
+
+  onMessageSubmit = e => {
+    e.preventDefault();
+    const form = new FormData();
+    form.append("text", this.state.text);
+    form.append("file", this.state.file);
+
+    this.props.sendMessage("5d1c9b544fb4d307d85849cc", form);
+
+    this.setState({
+      text: ""
+    });
+  };
+
+  onChange = e =>
+    this.setState({
+      text: e.target.value
+    });
+
+  fileSelectHandler = e => {
+    this.setState({
+      file: e.target.files[0]
+    });
+  };
 
   render() {
     console.log(this.props.messages);
     const { user } = this.props.auth;
     const { messages } = this.props.messages;
+
     const conversation = (
       <React.Fragment>
         {messages !== null ? (
@@ -23,12 +53,24 @@ class WriteMessage extends Component {
                 return (
                   <li key={message._id} className="sender">
                     <p>{message.body}</p>
+                    {message.file ? (
+                      <img
+                        src={`http://localhost:5000/${message.file}`}
+                        alt="attachment"
+                      />
+                    ) : null}
                   </li>
                 );
               } else {
                 return (
                   <li key={message._id} className="recipient">
                     <p>{message.body}</p>
+                    {message.file ? (
+                      <img
+                        src={`http://localhost:5000/${message.file}`}
+                        alt="attachment"
+                      />
+                    ) : null}
                   </li>
                 );
               }
@@ -50,18 +92,35 @@ class WriteMessage extends Component {
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg"
               alt="cat"
               width="30px"
+              style={{ borderRadius: "50%" }}
             />
           </div>
         </div>
         <div className="messages">{conversation}</div>
         <div className="conversation-field__textarea">
-          {/* <div>
-            <label>Choose a file</label>
-            <input type="file" />
-          </div> */}
-          <button className="file">File</button>
-          <textarea placeholder="Write a message" />
-          <button className="send">Send</button>
+          <form>
+            <input
+              style={{ display: "none" }}
+              type="file"
+              name="file"
+              accept=".png, .jpg"
+              onChange={this.fileSelectHandler}
+              ref={fileInput => (this.fileInput = fileInput)}
+            />
+            <i
+              className="far fa-folder-open"
+              onClick={() => this.fileInput.click()}
+            />
+            <textarea
+              placeholder="Write a message"
+              name="userInput"
+              onChange={this.onChange}
+            />
+            <i
+              className="fas fa-arrow-circle-right"
+              onClick={this.onMessageSubmit}
+            />
+          </form>
         </div>
       </div>
     );
@@ -79,5 +138,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { sendMessage }
+  { loadMessages, sendMessage }
 )(WriteMessage);

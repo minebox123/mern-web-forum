@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const socketApi = require("./routes/socket");
 const io = socketApi.io;
-const multer = require("multer");
 
 const users = require("./routes/users");
 const profile = require("./routes/profile");

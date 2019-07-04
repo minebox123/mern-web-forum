@@ -3,15 +3,35 @@ const router = express.Router();
 const passport = require("passport");
 const multer = require("multer");
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().toISOString() + file.originalname);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg"
+  ) {
+    cb(null, true);
+  }
+  cb(null, false);
+};
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5000000 },
+  fileFilter: fileFilter
+});
+
 // Models
 const Conversation = require("../models/Conversation");
 const Message = require("../models/Message");
-
-// router.get("/", (req, res) => {
-//   res.json({
-//     msg: "hello"
-//   });
-// });
 
 // Get all conversations
 router.get(
@@ -61,7 +81,7 @@ router.get(
   }
 );
 
-// Write a message
+// create a conversation
 router.post(
   "/createConv/:recipientId",
   passport.authenticate("jwt", { session: false }),
@@ -99,6 +119,7 @@ router.post(
 // Send reply
 router.post(
   "/:conversationId",
+  upload.single("file"),
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const reply = new Message({
@@ -106,13 +127,9 @@ router.post(
       body: req.body.text,
       user: req.user._id
     });
+    if (req.file !== undefined) reply.file = req.file.path;
 
-    reply.save((err, sentReply) => {
-      if (err) {
-        res.send({ error: err });
-      }
-      res.status(200).json({ message: "reply successfully sent" });
-    });
+    reply.save().then(reply => res.json(reply));
   }
 );
 

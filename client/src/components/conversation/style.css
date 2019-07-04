@@ -14,7 +14,10 @@
 }
 
 .conversation-field__header {
-
+    position: fixed;
+    z-index: 111;
+    width: 600px;
+    background-color: #fff;
     height: 50px;
     display: flex;
     justify-content: space-between;
@@ -35,8 +38,17 @@
 }
 
 .messages {
-    height: 100%;
+    max-height: 100vh;
 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+}
+
+.messages ul {
+    margin-bottom: 20px;
+    overflow: scroll;
 }
 
 .messages li {
@@ -49,7 +61,15 @@
     color: #fff;
     width: 300px;
     border-radius: 5px;
-    padding: 5px 10px
+    padding: 5px 10px;
+    margin-left: 280px;
+}
+
+.sender img {
+    border-radius: 5px;
+    margin-left: 290px;
+    width: 300px;
+    cursor: pointer;
 }
 
 .recipient p {
@@ -60,10 +80,16 @@
     padding: 5px 10px
 }
 
+.recipient img {
+    border-radius: 5px;
+    width: 300px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
 .conversation-field__textarea {
-    position: fixed;
-    bottom: 0;
-    margin-bottom: 20px;
+
+
     z-index: 111;
     width: 600px;
     display: flex;
@@ -80,4 +106,34 @@
     border: 1px solid rgb(214, 214, 214);
     padding: 10px 0 0 10px;
     resize: none;
+}
+
+.conversation-field__textarea form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 600px;
+}
+
+.fa-folder-open {
+    font-size: 30px;
+    margin-left: 20px;
+    color: #b8b8b8;
+    cursor: pointer;
+}
+
+.fa-folder-open:hover {
+    color: #858585;
+
+}
+
+.fa-arrow-circle-right {
+    font-size: 30px;
+    margin-right: 20px;
+    color: #b8b8b8;
+    cursor: pointer;
+}
+
+.fa-arrow-circle-right:hover {
+    color: #858585;
 }

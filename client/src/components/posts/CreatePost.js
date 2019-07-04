@@ -32,20 +32,6 @@ class CreatePost extends Component {
     form.append("name", user.username);
     form.append("avatar", user.avatar);
 
-    // const newPost = {
-    //   text: this.state.text,
-    //   theme: this.state.theme,
-    //   file: form,
-    //   name: user.username,
-    //   avatar: user.avatar
-    // };
-
-    // axios({
-    //   method: "post",
-    //   url: "/post",
-    //   data: newPost,
-    //   config: { headers: { "Content-Type": "multipart/form-data" } }
-    // });
     this.props.createPost(form);
   };
   onChange = e => this.setState({ [e.target.name]: e.target.value });
