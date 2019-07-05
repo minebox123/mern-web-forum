@@ -74,13 +74,13 @@ class Header extends Component {
             {isOpen ? (
               <ul className="dropdown-menu">
                 <li>
-                  <Link to="profile">My profile</Link>
+                  <Link to="/profile">My profile</Link>
                 </li>
                 <li>
-                  <Link to="messages">Messages</Link>
+                  <Link to="/conversations">Messages</Link>
                 </li>
                 <li>
-                  <Link to="premium">Premium</Link>
+                  <Link to="/premium">Premium</Link>
                 </li>
                 <li onClick={this.onLogoutClick}>Logout</li>
               </ul>

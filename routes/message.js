@@ -33,6 +33,40 @@ const upload = multer({
 const Conversation = require("../models/Conversation");
 const Message = require("../models/Message");
 
+// Get a conversation's id
+router.get(
+  "/:recipientId",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Conversation.find({
+      participants: { $all: [req.user._id, req.params.recipientId] }
+    }).then(response => {
+      if (response === null || response === undefined) {
+        res.status(404).json({
+          noconversation: "You haven't started a conversation with this user"
+        });
+      } else {
+        let convId = [];
+        response.map(item => {
+          if (item._id) {
+            convId.push(item._id);
+            // res.status(200).json({ convId: convId });
+            Message.find({ conversationId: convId[0] })
+              .populate("user", ["username", "avatar"])
+              .then(messages => {
+                if (messages) {
+                  res.status(200).json({ conversation: messages });
+                } else {
+                  res.status(404).json({ notfound: "No messages found" });
+                }
+              });
+          }
+        });
+      }
+    });
+  }
+);
+
 // Get all conversations
 router.get(
   "/",
@@ -64,22 +98,22 @@ router.get(
   }
 );
 
-// Get a current message
-router.get(
-  "/:conversationId",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    Message.find({ conversationId: req.params.conversationId })
-      .populate("user", ["username", "avatar"])
-      .then(messages => {
-        if (messages) {
-          res.status(200).json({ conversation: messages });
-        } else {
-          res.status(404).json({ notfound: "No messages found" });
-        }
-      });
-  }
-);
+// Get messages from a conversation
+// router.get(
+//   "/:conversationId",
+//   passport.authenticate("jwt", { session: false }),
+//   (req, res) => {
+//     Message.find({ conversationId: req.params.conversationId })
+//       .populate("user", ["username", "avatar"])
+//       .then(messages => {
+//         if (messages) {
+//           res.status(200).json({ conversation: messages });
+//         } else {
+//           res.status(404).json({ notfound: "No messages found" });
+//         }
+//       });
+//   }
+// );
 
 // create a conversation
 router.post(

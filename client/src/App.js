@@ -18,6 +18,7 @@ import CreatePost from "./components/posts/CreatePost";
 import CreateComment from "./components/posts/CreateComment";
 import CurrentProfile from "./components/profile/CurrentProfile";
 import WriteMessage from "./components/conversation/WriteMessage";
+import AllConversations from "./components/conversation/AllConversations";
 // import Motors from "./components/forum/Motors";
 // import Pumps from "./components/forum/Pumps";
 // import AnotherStuff from "./components/forum/AnotherStuff";
@@ -65,10 +66,15 @@ function App() {
               <Route exact path="/post/:post_id" component={CreateComment} />
             </Switch>
             <Switch>
-              <Route
+              <PrivateRoute
                 exact
                 path="/conversations/:recipientId"
                 component={WriteMessage}
+              />
+              <PrivateRoute
+                exact
+                path="/conversations"
+                component={AllConversations}
               />
             </Switch>
           </div>

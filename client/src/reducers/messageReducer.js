@@ -1,7 +1,8 @@
 import {
   SEND_MESSAGE,
   RECEIVE_MESSAGES,
-  RECEIVE_MESSAGE
+  RECEIVE_MESSAGE,
+  GET_ALL_CONVERSATIONS
 } from "../actions/types";
 
 const initialState = {
@@ -25,6 +26,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         message: action.payload
+      };
+    case GET_ALL_CONVERSATIONS:
+      return {
+        ...state,
+        messages: action.payload
       };
     default:
       return state;

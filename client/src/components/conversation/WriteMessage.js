@@ -2,26 +2,42 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loadMessages, sendMessage } from "../../actions/messageActions";
+import { getProfileById } from "../../actions/profileActions";
 import { Link } from "react-router-dom";
 import "./style.css";
 
 class WriteMessage extends Component {
   state = {
     text: "",
-    file: ""
+    file: "",
+    height: null
   };
 
   componentDidMount() {
-    this.props.loadMessages("5d1c9b544fb4d307d85849cc");
+    this.props.loadMessages(this.props.match.params.recipientId);
+    // Get profile information
+    this.props.getProfileById(this.props.match.params.recipientId);
+    window.addEventListener("resize", this.updateWindowDimension());
+  }
+
+  componentWillUnmount() {
+    window.addEventListener("resize", this.updateWindowDimension());
+  }
+
+  updateWindowDimension() {
+    this.setState({
+      height: window.innerHeight - 175
+    });
   }
 
   onMessageSubmit = e => {
     e.preventDefault();
+    const { messages } = this.props.messages;
     const form = new FormData();
     form.append("text", this.state.text);
     form.append("file", this.state.file);
 
-    this.props.sendMessage("5d1c9b544fb4d307d85849cc", form);
+    this.props.sendMessage(messages[0].conversationId, form);
 
     this.setState({
       text: ""
@@ -40,9 +56,11 @@ class WriteMessage extends Component {
   };
 
   render() {
-    console.log(this.props.messages);
+    // console.log(this.props.messages);
     const { user } = this.props.auth;
     const { messages } = this.props.messages;
+    const { profile } = this.props.profile;
+    const { height } = this.state;
 
     const conversation = (
       <React.Fragment>
@@ -85,18 +103,33 @@ class WriteMessage extends Component {
           <Link to={`/profile/${this.props.match.params.recipientId}`}>
             Back
           </Link>
-          <h2>User name</h2>
+          {profile !== null ? (
+            <h2>{profile.user.username}</h2>
+          ) : (
+            <h2>User Name</h2>
+          )}
           <div className="stuff">
             <i className="fas fa-ellipsis-h" />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg"
-              alt="cat"
-              width="30px"
-              style={{ borderRadius: "50%" }}
-            />
+            {profile !== null ? (
+              <img
+                src={`http://localhost:5000/${profile.user.avatar}`}
+                alt="avatar"
+                width="30px"
+                style={{ borderRadius: "50%" }}
+              />
+            ) : (
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg"
+                alt="cat"
+                width="30px"
+                style={{ borderRadius: "50%" }}
+              />
+            )}
           </div>
         </div>
-        <div className="messages">{conversation}</div>
+        <div className="messages" style={{ maxHeight: height }}>
+          {conversation}
+        </div>
         <div className="conversation-field__textarea">
           <form>
             <input
@@ -133,10 +166,11 @@ WriteMessage.propTypes = {
 
 const mapStateToProps = state => ({
   messages: state.message,
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
 export default connect(
   mapStateToProps,
-  { loadMessages, sendMessage }
+  { loadMessages, sendMessage, getProfileById }
 )(WriteMessage);

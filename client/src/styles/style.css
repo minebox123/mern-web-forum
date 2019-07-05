@@ -51,14 +51,15 @@ body {
 }
 
 .dropdown-menu {
-  position: fixed;
+  position: absolute;
   background-color: #e6e6e6;
   width: 152px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   border: 1px solid #d5d5d5;
   border-top: none;
-  z-index: 1;
+  z-index: 999;
+
 
 
 }
