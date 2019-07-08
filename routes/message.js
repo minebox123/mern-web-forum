@@ -82,6 +82,7 @@ router.get(
               .limit(1)
               .populate("user", ["username", "avatar"])
               .then(message => {
+                console.log(message);
                 allConversations.push(message);
                 if (allConversations.length === conversations.length) {
                   return res
@@ -97,23 +98,6 @@ router.get(
       .catch(err => res.status(404).json(err));
   }
 );
-
-// Get messages from a conversation
-// router.get(
-//   "/:conversationId",
-//   passport.authenticate("jwt", { session: false }),
-//   (req, res) => {
-//     Message.find({ conversationId: req.params.conversationId })
-//       .populate("user", ["username", "avatar"])
-//       .then(messages => {
-//         if (messages) {
-//           res.status(200).json({ conversation: messages });
-//         } else {
-//           res.status(404).json({ notfound: "No messages found" });
-//         }
-//       });
-//   }
-// );
 
 // create a conversation
 router.post(

@@ -131,9 +131,81 @@
     color: #858585;
 }
 
-
 /* All Conversations */
 .conversations-list {
-    width: 1200px;
+    width: 630px;
     margin: 0 auto;
+    margin-top: 20px;
+    border: 1px solid#eee;
+    border-radius: 5px;
+}
+
+.conversation-list__search {
+    color: #b8b8b8;
+    border-bottom: 1px solid #eee;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.conversation-list__search input {
+    border: none;
+    width: 500px;
+    font-size: 16px;
+    outline: none;
+}
+
+.conversations-list a li {
+
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+}
+
+.conversations-list a {
+    text-decoration: none;
+    color: #000;
+}
+
+.conversations-list a:nth-child(n + 2) {
+    border-top: 1px solid #eee;
+}
+
+.conversations-list a li:hover {
+    background-color: #eee;
+}
+
+.data-wrapper {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    width: 90%;
+
+}
+
+.data-body {
+    width: 90%;
+    height: 100%;
+
+}
+
+.data-body h3 {
+    font-weight: bold;
+}
+
+.data-body p {
+    margin-top: 15px;
+    color: #6f6f6f
+}
+
+.conversations-list img {
+    height: 100%;
+    width: auto;
+
+
+}
+
+.message-date {
+    color: #aaa;
 }
