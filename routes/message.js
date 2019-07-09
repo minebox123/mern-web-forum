@@ -81,6 +81,7 @@ router.get(
               .sort({ date: -1 })
               .limit(1)
               .populate("user", ["username", "avatar"])
+              .populate("recipient", ["username", "avatar"])
               .then(message => {
                 allConversations.push(message);
                 if (allConversations.length === conversations.length) {
@@ -112,7 +113,7 @@ router.post(
       Conversation.find({
         participants: { $all: [req.user._id, req.params.recipientId] }
       }).then(response => {
-        if (response === []) {
+        if ((response = [])) {
           const conversation = new Conversation({
             participants: [req.user._id, req.params.recipientId]
           });

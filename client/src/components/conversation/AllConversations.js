@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import NoConversation from "./NoConversations";
 import Conversations from "./Conversations";
 import { connect } from "react-redux";
+// import { getProfileById } from "../../actions/profileActions";
 
 import { getAllConversations } from "../../actions/messageActions";
 
@@ -29,7 +30,9 @@ class AllConversations extends Component {
   render() {
     const { messages } = this.props.messages;
     const { height } = this.state;
-
+    const { user } = this.props.auth;
+    console.log(user);
+    console.log(messages);
     return (
       <div className="conversations-list" style={{ height: height }}>
         <div className="conversation-list__search">
@@ -39,7 +42,7 @@ class AllConversations extends Component {
         </div>
         <ul>
           {messages !== null ? (
-            <Conversations messages={messages} />
+            <Conversations messages={messages} user={user} />
           ) : (
             <NoConversation />
           )}
@@ -54,7 +57,8 @@ AllConversations.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  messages: state.message
+  messages: state.message,
+  auth: state.auth
 });
 
 export default connect(
