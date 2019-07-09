@@ -17,7 +17,7 @@ import Posts from "./components/posts/Posts";
 import CreatePost from "./components/posts/CreatePost";
 import CreateComment from "./components/posts/CreateComment";
 import CurrentProfile from "./components/profile/CurrentProfile";
-import WriteMessage from "./components/conversation/WriteMessage";
+import WriteMessage from "./components/messages/WriteMessage";
 import AllConversations from "./components/conversation/AllConversations";
 // import Motors from "./components/forum/Motors";
 // import Pumps from "./components/forum/Pumps";

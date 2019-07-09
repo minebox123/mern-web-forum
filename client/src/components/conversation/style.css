@@ -209,3 +209,10 @@
 .message-date {
     color: #aaa;
 }
+
+.no-conversations {
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 300px;
+    color: #b8b8b8;
+}

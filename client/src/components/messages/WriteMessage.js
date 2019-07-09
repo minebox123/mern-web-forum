@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { loadMessages, sendMessage } from "../../actions/messageActions";
 import { getProfileById } from "../../actions/profileActions";
 import { Link } from "react-router-dom";
-import "./style.css";
+import "../conversation/style.css";
 
 class WriteMessage extends Component {
   state = {
@@ -56,7 +56,6 @@ class WriteMessage extends Component {
   };
 
   render() {
-    // console.log(this.props.messages);
     const { user } = this.props.auth;
     const { messages } = this.props.messages;
     const { profile } = this.props.profile;

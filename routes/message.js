@@ -82,7 +82,6 @@ router.get(
               .limit(1)
               .populate("user", ["username", "avatar"])
               .then(message => {
-                console.log(message);
                 allConversations.push(message);
                 if (allConversations.length === conversations.length) {
                   return res
@@ -99,57 +98,107 @@ router.get(
   }
 );
 
-// create a conversation
+// write a message
 router.post(
-  "/createConv/:recipientId",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    if (!req.params.recipientId) {
-      res
-        .status(422)
-        .send({ error: "Please choose a valid recipient for your message" });
-    }
-    const conversation = new Conversation({
-      participants: [req.user._id, req.params.recipientId]
-    });
-    conversation.save((err, newConversation) => {
-      if (err) {
-        res.send({ error: err });
-      }
-      const message = new Message({
-        conversationId: newConversation._id,
-        body: req.body.text,
-        user: req.user._id
-      });
-      message.save((err, newMessage) => {
-        if (err) {
-          res.send({ error: err });
-        }
-        res.status(200).json({
-          message: "conversation started",
-          conversationId: conversation._id
-        });
-      });
-    });
-  }
-);
-
-// Send reply
-router.post(
-  "/:conversationId",
+  "/:recipientId",
   upload.single("file"),
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const reply = new Message({
-      conversationId: req.params.conversationId,
-      body: req.body.text,
-      user: req.user._id
-    });
-    if (req.file !== undefined) reply.file = req.file.path;
+    // check for user existence
+    if (!req.params.recipientId) {
+      res.status(422).json("User with this id doesn't exist");
+    } else {
+      // check for conversation existence
+      Conversation.find({
+        participants: { $all: [req.user._id, req.params.recipientId] }
+      }).then(response => {
+        if (response === []) {
+          const conversation = new Conversation({
+            participants: [req.user._id, req.params.recipientId]
+          });
 
-    reply.save().then(reply => res.json(reply));
+          conversation.save((err, newConversation) => {
+            if (err) {
+              res.send({ error: err });
+            } else {
+              const message = new Message({
+                conversationId: newConversation._id,
+                body: req.body.text,
+                user: req.user._id,
+                recipient: req.params.recipientId
+              });
+              if (req.file !== undefined) message.file = req.file.path;
+
+              message.save().then(message => res.json(message));
+            }
+          });
+        } else {
+          const reply = new Message({
+            conversationId: response[0]._id,
+            body: req.body.text,
+            user: req.user._id,
+            recipient: req.params.recipientId
+          });
+          if (req.file !== undefined) reply.file = req.file.path;
+
+          reply.save().then(reply => res.json(reply));
+        }
+      });
+    }
   }
 );
+
+// create a conversation
+// router.post(
+//   "/createConv/:recipientId",
+//   passport.authenticate("jwt", { session: false }),
+//   (req, res) => {
+//     if (!req.params.recipientId) {
+//       res
+//         .status(422)
+//         .send({ error: "Please choose a valid recipient for your message" });
+//     }
+//     const conversation = new Conversation({
+//       participants: [req.user._id, req.params.recipientId]
+//     });
+//     conversation.save((err, newConversation) => {
+//       if (err) {
+//         res.send({ error: err });
+//       }
+//       const message = new Message({
+//         conversationId: newConversation._id,
+//         body: req.body.text,
+//         user: req.user._id
+//       });
+//       message.save((err, newMessage) => {
+//         if (err) {
+//           res.send({ error: err });
+//         }
+//         res.status(200).json({
+//           message: "conversation started",
+//           conversationId: conversation._id
+//         });
+//       });
+//     });
+//   }
+// );
+
+// Send reply
+// router.post(
+//   "/:conversationId",
+//   upload.single("file"),
+//   passport.authenticate("jwt", { session: false }),
+//   (req, res) => {
+//     const reply = new Message({
+//       conversationId: req.params.conversationId,
+//       body: req.body.text,
+//       user: req.user._id
+//     });
+//     if (req.file !== undefined) reply.file = req.file.path;
+
+//     reply.save().then(reply => res.json(reply));
+//   }
+// );
 
 router.delete(
   "/conversations/:conversationId",
