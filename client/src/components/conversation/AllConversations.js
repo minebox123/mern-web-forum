@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import NoConversation from "./NoConversations";
 import Conversations from "./Conversations";
 import { connect } from "react-redux";
-// import { getProfileById } from "../../actions/profileActions";
-
 import { getAllConversations } from "../../actions/messageActions";
 
 class AllConversations extends Component {
@@ -23,7 +21,7 @@ class AllConversations extends Component {
 
   updateWindowDimension() {
     this.setState({
-      height: window.innerHeight - 175
+      height: window.innerHeight - 100
     });
   }
 
@@ -32,16 +30,16 @@ class AllConversations extends Component {
     const { height } = this.state;
     const { user } = this.props.auth;
     // console.log(user);
-    // console.log(messages);
+    console.log(messages);
     return (
-      <div className="conversations-list" style={{ maxHeight: height }}>
+      <div className="conversations-list" style={{ minHeight: height }}>
         <div className="conversation-list__search">
           <i className="fas fa-search" />
           <input type="text" placeholder="Search for a message" />
           <i className="fas fa-times" />
         </div>
         <ul>
-          {messages !== null ? (
+          {messages !== undefined ? (
             <Conversations messages={messages} user={user} />
           ) : (
             <NoConversation />

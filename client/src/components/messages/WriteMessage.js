@@ -60,6 +60,7 @@ class WriteMessage extends Component {
     const { messages } = this.props.messages;
     const { profile } = this.props.profile;
     const { height } = this.state;
+    console.log(messages);
 
     const conversation = (
       <React.Fragment>
@@ -126,7 +127,7 @@ class WriteMessage extends Component {
             )}
           </div>
         </div>
-        <div className="messages" style={{ maxHeight: height }}>
+        <div className="messages" style={{ minHeight: height }}>
           {conversation}
         </div>
         <div className="conversation-field__textarea">

@@ -53,6 +53,7 @@ router.get(
             // res.status(200).json({ convId: convId });
             Message.find({ conversationId: convId[0] })
               .populate("user", ["username", "avatar"])
+              .populate("recipient", ["username", "avatar"])
               .then(messages => {
                 if (messages) {
                   res.status(200).json({ conversation: messages });
@@ -82,12 +83,12 @@ router.get(
               .limit(1)
               .populate("user", ["username", "avatar"])
               .populate("recipient", ["username", "avatar"])
-              .then(message => {
-                allConversations.push(message);
+              .then(messages => {
+                allConversations.push(messages);
                 if (allConversations.length === conversations.length) {
-                  return res
-                    .status(200)
-                    .json({ conversations: allConversations });
+                  return res.status(200).json({
+                    conversations: messages
+                  });
                 }
               });
           });
