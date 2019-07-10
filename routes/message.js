@@ -105,7 +105,7 @@ router.post(
   upload.single("file"),
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    // check for user existence
+    //
     if (!req.params.recipientId) {
       res.status(422).json("User with this id doesn't exist");
     } else {
@@ -113,7 +113,7 @@ router.post(
       Conversation.find({
         participants: { $all: [req.user._id, req.params.recipientId] }
       }).then(response => {
-        if ((response = [])) {
+        if (response.length === 0) {
           const conversation = new Conversation({
             participants: [req.user._id, req.params.recipientId]
           });

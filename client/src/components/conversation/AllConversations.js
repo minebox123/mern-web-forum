@@ -31,10 +31,10 @@ class AllConversations extends Component {
     const { messages } = this.props.messages;
     const { height } = this.state;
     const { user } = this.props.auth;
-    console.log(user);
-    console.log(messages);
+    // console.log(user);
+    // console.log(messages);
     return (
-      <div className="conversations-list" style={{ height: height }}>
+      <div className="conversations-list" style={{ maxHeight: height }}>
         <div className="conversation-list__search">
           <i className="fas fa-search" />
           <input type="text" placeholder="Search for a message" />
