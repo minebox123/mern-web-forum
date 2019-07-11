@@ -3,15 +3,16 @@ import Moment from "react-moment";
 import { Link } from "react-router-dom";
 
 const Conversations = ({ messages, user }) => {
+  console.log(messages);
   return (
     <React.Fragment>
       {messages !== null
         ? messages.conversations.map(message =>
             message.map(item => (
-              <React.Fragment>
+              <div>
                 {item.recipient._id === user.id ? (
                   <li key={item._id}>
-                    <Link to={`/conversations/${item.user._id}`}>
+                    <Link to={`/mes/${item.user._id}`}>
                       <div className="image-wrapper">
                         <img
                           src={`http://localhost:5000/${item.user.avatar}`}
@@ -32,7 +33,7 @@ const Conversations = ({ messages, user }) => {
                   </li>
                 ) : (
                   <li key={item.conversationId}>
-                    <Link to={`/conversations/${item.recipient._id}`}>
+                    <Link to={`/mes/${item.recipient._id}`}>
                       <div className="image-wrapper">
                         <img
                           src={`http://localhost:5000/${item.recipient.avatar}`}
@@ -62,7 +63,7 @@ const Conversations = ({ messages, user }) => {
                     </Link>
                   </li>
                 )}
-              </React.Fragment>
+              </div>
             ))
           )
         : null}

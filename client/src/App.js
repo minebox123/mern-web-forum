@@ -68,13 +68,13 @@ function App() {
             <Switch>
               <PrivateRoute
                 exact
-                path="/conversations/:recipientId"
-                component={WriteMessage}
+                path="/conversations"
+                component={AllConversations}
               />
               <PrivateRoute
                 exact
-                path="/conversations"
-                component={AllConversations}
+                path="/mes/:recipientId"
+                component={WriteMessage}
               />
             </Switch>
           </div>

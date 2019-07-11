@@ -1,16 +1,32 @@
 const express = require("express");
+const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const socketApi = require("./routes/socket");
-const io = socketApi.io;
+
+const port = process.env.PORT || 5000;
+
+const server = app.listen(port, () =>
+  console.log(`Server runs on port ${port}`)
+);
+
+const io = require("socket.io").listen(server);
+
+// listen to messages
+// io.on("connection", socket => {
+//   console.log("user connected");
+//   socket.on("disconnect", () => console.log("Client disconnected"));
+//   socket.on("SEND_MESSAGE", data => {
+//     console.log(data);
+//     io.emit("RECEIVE_MESSAGE", data);
+//   });
+// });
 
 const users = require("./routes/users");
-const profile = require("./routes/profile");
-const post = require("./routes/post");
-const message = require("./routes/message");
-
-const app = express();
+const profiles = require("./routes/profiles");
+const posts = require("./routes/posts");
+const messages = require("./routes/messages")(io);
+const conversations = require("./routes/conversations");
 
 app.use("/uploads", express.static("uploads"));
 app.use("/uploads/avatars", express.static("avatars"));
@@ -40,14 +56,7 @@ app.get("/", (req, res) => {
   });
 });
 app.use("/", users);
-app.use("/profile", profile);
-app.use("/post", post);
-app.use("/conversations", message);
-
-const port = process.env.PORT || 5000;
-
-const server = app.listen(port, () =>
-  console.log(`Server runs on port ${port}`)
-);
-
-io.attach(server);
+app.use("/profile", profiles);
+app.use("/post", posts);
+app.use("/conversations", conversations);
+app.use("/mes", messages);

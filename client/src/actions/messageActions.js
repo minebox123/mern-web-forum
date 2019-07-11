@@ -20,9 +20,9 @@ export const loadMessages = conversationId => dispatch => {
 };
 
 // Send messages
-export const sendMessage = (conversationId, text) => dispatch => {
+export const sendMessage = (recipientId, text) => dispatch => {
   axios
-    .post(`/conversations/${conversationId}`, text)
+    .post(`/mes/${recipientId}`, text)
     .then(res =>
       dispatch({
         type: RECEIVE_MESSAGE,
@@ -35,7 +35,7 @@ export const sendMessage = (conversationId, text) => dispatch => {
 // get a conversation Id
 export const getConvByParticipants = recipientId => dispatch => {
   axios
-    .get(`/conversations/${recipientId}`)
+    .get(`/mes/${recipientId}`)
     .then(res =>
       dispatch({
         type: GET_CONVERSATION_ID,
