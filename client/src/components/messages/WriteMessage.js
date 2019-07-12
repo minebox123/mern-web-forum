@@ -4,24 +4,23 @@ import { connect } from "react-redux";
 import { loadMessages, sendMessage } from "../../actions/messageActions";
 import { getProfileById } from "../../actions/profileActions";
 import { Link } from "react-router-dom";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 import "../conversation/style.css";
 
 class WriteMessage extends Component {
   state = {
     text: "",
     file: "",
-    height: null,
-    endpoint: `http://localhost:5000/mes/${this.props.match.params.recipientId}`
+    height: null
   };
 
-  socket = io(`http://localhost:5000`);
+  // socket = io(`http://localhost:5000`);
 
   componentDidMount() {
-    // this.props.loadMessages(this.props.match.params.recipientId);
-    this.socket.on("message", message => {
-      console.log(message);
-    });
+    this.props.loadMessages(this.props.match.params.recipientId);
+    // this.socket.on("message", message => {
+    //   console.log(message);
+    // });
 
     // Get profile information
     this.props.getProfileById(this.props.match.params.recipientId);
@@ -46,8 +45,8 @@ class WriteMessage extends Component {
     form.append("text", this.state.text);
     form.append("file", this.state.file);
 
-    this.socket.emit("message", this.state.text);
-    // this.props.sendMessage(this.props.match.params.recipientId, form);
+    // this.socket.emit("message", this.state.text);
+    this.props.sendMessage(this.props.match.params.recipientId, form);
 
     this.setState({
       text: ""

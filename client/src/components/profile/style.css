@@ -1,4 +1,4 @@
-.profile {
+.user-profile {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
@@ -74,8 +74,6 @@
     width: 180px;
 }
 
-.profile__form--file input[type=file] {}
-
 .button {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
@@ -98,11 +96,32 @@
 
 .profile__current-info {
     margin-top: 4rem;
-    width: 300px;
-    border: 1px solid red;
+    width: 400px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+
+.profile__current-info>div {
+    margin: 0 auto;
+    margin-top: 20px;
+
 }
 
 .profile__current-info img {
     width: 100px;
-    padding-top: 20px;
+}
+
+
+
+.profile-username {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.info {
+    margin-top: 3px;
+    margin-left: 20px;
 }

@@ -5,6 +5,10 @@
 
     }
 
+    .user-profile {
+        max-width: 1000px;
+    }
+
     .profile {
         max-width: 1000px;
     }
@@ -31,6 +35,10 @@
 /* Width < 1000 */
 @media only screen and (max-width: 1000px) {
     .header__container {
+        max-width: 800px;
+    }
+
+    .user-profile {
         max-width: 800px;
     }
 

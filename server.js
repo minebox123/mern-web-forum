@@ -3,29 +3,26 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-
+const socket = require("socket.io");
 const port = process.env.PORT || 5000;
 
 const server = app.listen(port, () =>
   console.log(`Server runs on port ${port}`)
 );
 
-const io = require("socket.io").listen(server);
+const io = socket(server);
 
-// listen to messages
-// io.on("connection", socket => {
-//   console.log("user connected");
-//   socket.on("disconnect", () => console.log("Client disconnected"));
-//   socket.on("SEND_MESSAGE", data => {
-//     console.log(data);
-//     io.emit("RECEIVE_MESSAGE", data);
-//   });
-// });
+// const newConnection = socket => {
+//   console.log(`new connection ${socket.id}`);
+// };
+// io.sockets.on("connection", newConnection);
+
+app.set("socket", io);
 
 const users = require("./routes/users");
 const profiles = require("./routes/profiles");
 const posts = require("./routes/posts");
-const messages = require("./routes/messages")(io);
+const messages = require("./routes/messages");
 const conversations = require("./routes/conversations");
 
 app.use("/uploads", express.static("uploads"));

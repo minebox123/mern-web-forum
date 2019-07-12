@@ -11,6 +11,7 @@ class CreatePost extends Component {
     text: "",
     theme: "",
     file: null,
+    image: null,
     errors: {}
   };
 
@@ -36,7 +37,16 @@ class CreatePost extends Component {
   };
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
+  readURL = input => {};
+
   fileSelectHandler = e => {
+    if (e.target.files && e.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = e => {
+        this.setState({ image: e.target.result });
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
     this.setState({
       file: e.target.files[0]
     });
@@ -77,6 +87,13 @@ class CreatePost extends Component {
               accept=".png, .jpg"
               onChange={this.fileSelectHandler}
             />
+            {this.state.image ? (
+              <img
+                src={this.state.image}
+                alt="preview"
+                style={{ width: 200, marginTop: 20 }}
+              />
+            ) : null}
           </div>
           <button type="submit" className="button">
             Submit

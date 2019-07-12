@@ -115,6 +115,15 @@
     flex-direction: column;
 }
 
+
+
+.post__form--input textarea {
+    border-radius: 5px;
+    border: 1px solid #b8b8b8;
+    resize: none;
+
+}
+
 .post__form--input input {
     height: 30px;
     border: none;

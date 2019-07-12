@@ -52,9 +52,10 @@ class Profile extends Component {
   render() {
     const { experience, location, bio } = this.state;
     const { user } = this.props.auth;
-    const item = this.props.profile;
+    const { profile } = this.props;
+    console.log(profile);
     return (
-      <div className="profile">
+      <div className="user-profile">
         <form className="profile__form" onSubmit={this.onSubmit}>
           <h1>Settings information</h1>
           <div className="profile__form--input">
@@ -92,24 +93,33 @@ class Profile extends Component {
         </form>
         <section className="profile__current-info">
           {user.avatar !== undefined ? (
-            <img src={user.avatar} alt="avatar" />
+            <div className="image-wrapper">
+              <img src={user.avatar} alt="avatar" className="profile-pic" />
+            </div>
           ) : (
             <img src={defaultAvatar} alt="Default Avatar" />
           )}
           {user.username !== null ? (
-            <p>Username: {user.username}</p>
+            <p className="profile-username">{user.username}</p>
           ) : (
             <p>Username: username not found </p>
           )}
-          {item.profile !== null ? (
-            <p>Location: {item.profile.location}</p>
+          {profile.profile !== null ? (
+            <p className="info">
+              Years of experience: {profile.profile.experience}
+            </p>
           ) : (
-            <p>Location: location not provided</p>
+            <p className="info">Experience: location not provided</p>
           )}
-          {item.profile !== null ? (
-            <p>Bio: {item.profile.bio}</p>
+          {profile.profile !== null ? (
+            <p className="info">Location: {profile.profile.location}</p>
           ) : (
-            <p>Bio: bio not provided</p>
+            <p className="info">Location: location not provided</p>
+          )}
+          {profile.profile !== null ? (
+            <p className="info">Bio: {profile.profile.bio}</p>
+          ) : (
+            <p className="info">Bio: bio not provided</p>
           )}
         </section>
       </div>

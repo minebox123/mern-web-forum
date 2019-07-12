@@ -33,62 +33,59 @@ const upload = multer({
 const Conversation = require("../models/Conversation");
 const Message = require("../models/Message");
 
-module.exports = function(io) {
-  // write a message
-  router.post(
-    "/:recipientId",
-    upload.single("file"),
-    passport.authenticate("jwt", { session: false }),
-    (req, res) => {
-      //
-      if (!req.params.recipientId) {
-        res.status(422).json("User with this id doesn't exist");
-      } else {
-        // check for conversation existence
-        Conversation.find({
-          participants: { $all: [req.user._id, req.params.recipientId] }
-        }).then(response => {
-          if (response.length === 0) {
-            const conversation = new Conversation({
-              participants: [req.user._id, req.params.recipientId]
-            });
+// write a message
+router.post(
+  "/:recipientId",
+  upload.single("file"),
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //
+    if (!req.params.recipientId) {
+      res.status(422).json("User with this id doesn't exist");
+    } else {
+      // check for conversation existence
+      Conversation.find({
+        participants: { $all: [req.user._id, req.params.recipientId] }
+      }).then(response => {
+        if (response.length === 0) {
+          const conversation = new Conversation({
+            participants: [req.user._id, req.params.recipientId]
+          });
 
-            conversation.save((err, newConversation) => {
-              if (err) {
-                res.send({ error: err });
-              } else {
-                const message = new Message({
-                  conversationId: newConversation._id,
-                  body: req.body.text,
-                  user: req.user._id,
-                  recipient: req.params.recipientId
-                });
-                if (req.file !== undefined) message.file = req.file.path;
+          conversation.save((err, newConversation) => {
+            if (err) {
+              res.send({ error: err });
+            } else {
+              const message = new Message({
+                conversationId: newConversation._id,
+                body: req.body.text,
+                user: req.user._id,
+                recipient: req.params.recipientId
+              });
+              if (req.file !== undefined) message.file = req.file.path;
 
-                message.save().then(message => res.json(message));
-              }
-            });
-          } else {
-            const reply = new Message({
-              conversationId: response[0]._id,
-              body: req.body.text,
-              user: req.user._id,
-              recipient: req.params.recipientId
-            });
-            if (req.file !== undefined) reply.file = req.file.path;
+              message.save().then(message => res.json(message));
+            }
+          });
+        } else {
+          const reply = new Message({
+            conversationId: response[0]._id,
+            body: req.body.text,
+            user: req.user._id,
+            recipient: req.params.recipientId
+          });
+          if (req.file !== undefined) reply.file = req.file.path;
 
-            // reply.save().then(reply => res.json(reply));
-            io.on("connection", server => {
-              console.log("connected");
-            });
-          }
-        });
-      }
+          reply.save().then(reply => res.json(reply));
+          // const io = req.app.get("socket");
+          // io.on("msg", data => {
+
+          // });
+        }
+      });
     }
-  );
-
-  return router;
-};
+  }
+);
 
 // router.delete(
 //   "/conversations/:conversationId",
@@ -102,4 +99,4 @@ module.exports = function(io) {
 //     });
 //   }
 // );
-// module.exports = router(io);
+module.exports = router;
