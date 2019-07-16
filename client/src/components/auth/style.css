@@ -1,18 +1,15 @@
 /* Registration */
 .register {
-    max-width: 800px;
-    max-height: 1000px;
+    width: 800px;
+    height: 700px;
     margin: 100px auto;
-
     position: relative;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     border-radius: 5px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
-        0 3px 6px rgba(0, 0, 0, 0.23);
-    font-family: Arial, Helvetica, sans-serif
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    font-family: 'Ubuntu', sans-serif;
 }
 
 .register h2 {
@@ -23,17 +20,19 @@
 }
 
 .register h1 {
-    margin-top: 29px;
+
+    font-size: 18px;
+    text-align: center;
 }
 
 .landing-page__registration-form {
-    border: 1px solid blue;
+
     width: 100%;
     height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-
+    margin-top: 30px;
 }
 
 .registration-form {
@@ -74,11 +73,81 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+#chooseFile {
+    background-color: #fff;
+    color: #000;
+    font-size: 15px;
+    width: 130px;
+    padding: 10px 15px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 1px 6px rgba(0, 0, 0, 0.4);
+    outline: none;
+    cursor: pointer;
+    margin-left: 80px;
+}
+
+#chooseFile:hover {
+    background-color: #f5f5f5;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 1px 10px 2px rgba(0, 0, 0, 0.2);
+}
+
+.registration-form--file-preview {
+
+    display: flex;
+    align-items: center;
+}
+
+.registration-form--file-preview img {
+    margin-left: 50px;
+}
+
+.fas fa-times {
+    position: absolute;
+    border: 1px solid #eee;
+    padding: 5px 8px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.16);
+    margin-left: -15px;
+    margin-top: -10px;
+    cursor: pointer;
+    color: #999
+}
+
+.fa-times:hover {
+    color: #222;
+
+}
+
+.register button {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    width: 400px;
+    padding: 15px 20px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 1px 6px rgba(0, 0, 0, 0.4);
+    outline: none;
+    cursor: pointer;
+    margin-left: 80px;
+    background-color: #6230E6;
+    color: #fff;
+
+}
 
 /* Login */
 .login {
-    max-width: 800px;
-    max-height: 1000px;
+    width: 800px;
+    height: 600px;
     margin: 100px auto;
     position: relative;
     display: flex;
@@ -87,17 +156,23 @@
     border-radius: 5px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
         0 3px 6px rgba(0, 0, 0, 0.23);
+    font-family: 'Ubuntu', sans-serif;
 }
 
+.login h1 {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 50px;
+}
 
 .login__form {
     width: 100%;
     height: 500px;
-    margin-left: 5rem;
-    max-width: 400px;
+    margin-left: 80px;
+    width: 400px;
     display: flex;
     flex-direction: column;
-
+    margin-top: 30px;
 }
 
 .login__form--input {
@@ -118,5 +193,21 @@
 }
 
 .login__form button {
-    margin-top: 20px;
+    margin-top: 3rem;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    width: 400px;
+    padding: 15px 20px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 1px 6px rgba(0, 0, 0, 0.4);
+    outline: none;
+    cursor: pointer;
+
+    background-color: #6230E6;
+    color: #fff;
 }

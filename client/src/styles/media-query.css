@@ -28,6 +28,10 @@
     .editor form {
         max-width: 1000px;
     }
+
+    .footer__links ul {
+        max-width: 1000px;
+    }
 }
 
 
@@ -67,6 +71,10 @@
     }
 
     .current-profile {
+        max-width: 800px;
+    }
+
+    .footer__links ul {
         max-width: 800px;
     }
 }

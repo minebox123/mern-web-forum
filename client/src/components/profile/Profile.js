@@ -53,7 +53,7 @@ class Profile extends Component {
     const { experience, location, bio } = this.state;
     const { user } = this.props.auth;
     const { profile } = this.props;
-    console.log(profile);
+
     return (
       <div className="user-profile">
         <form className="profile__form" onSubmit={this.onSubmit}>

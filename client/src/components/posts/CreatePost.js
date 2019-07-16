@@ -37,8 +37,6 @@ class CreatePost extends Component {
   };
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
-  readURL = input => {};
-
   fileSelectHandler = e => {
     if (e.target.files && e.target.files[0]) {
       let reader = new FileReader();

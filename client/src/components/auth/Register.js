@@ -12,6 +12,7 @@ class Register extends Component {
     password: "",
     password2: "",
     avatar: "",
+    file: null,
     errors: {}
   };
 
@@ -27,15 +28,28 @@ class Register extends Component {
     }
   }
 
+  closeImage = () =>
+    this.setState({
+      file: null
+    });
+
   onChange = e =>
     this.setState({
       [e.target.name]: e.target.value
     });
 
-  fileSelectHandler = e =>
+  fileSelectHandler = e => {
+    if (e.target.files && e.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = e => {
+        this.setState({ file: e.target.result });
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
     this.setState({
       avatar: e.target.files[0]
     });
+  };
 
   onSubmit = e => {
     e.preventDefault();
@@ -81,14 +95,35 @@ class Register extends Component {
             />
             {errors && <small>{errors.email}</small>}
           </div>
-          <div className="registration-form--file">
-            <label>Add Image</label>
+          <div className="registration-form--file-preview">
             <input
               type="file"
               name="file"
               accept=".png, .jpg"
               onChange={this.fileSelectHandler}
+              ref={fileInput => (this.fileInput = fileInput)}
+              style={{ display: "none" }}
             />
+            <div>
+              <button
+                onClick={() => this.fileInput.click()}
+                type="button"
+                id="chooseFile"
+              >
+                Choose a file
+              </button>
+            </div>
+
+            {this.state.file ? (
+              <div>
+                <img
+                  src={this.state.file}
+                  alt="preview"
+                  style={{ width: 200 }}
+                />
+                <i className="fas fa-times" onClick={this.closeImage} />
+              </div>
+            ) : null}
           </div>
           <div className="registration-form">
             <label>Enter your password</label>

@@ -39,7 +39,7 @@ class Comments extends Component {
 
   render() {
     const { data } = this.props;
-    console.log(data);
+
     return (
       <div className="comments">
         <h2>Comments</h2>

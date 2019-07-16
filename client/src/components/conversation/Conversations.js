@@ -3,7 +3,6 @@ import Moment from "react-moment";
 import { Link } from "react-router-dom";
 
 const Conversations = ({ messages, user }) => {
-  console.log(messages);
   return (
     <React.Fragment>
       {messages !== null
