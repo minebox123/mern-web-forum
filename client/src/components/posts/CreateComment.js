@@ -11,7 +11,8 @@ class CreateComment extends Component {
     attachments: false,
     comment: "",
     dropDownMenu: false,
-    file: ""
+    file: "",
+    image: ""
   };
 
   componentDidMount() {
@@ -43,12 +44,6 @@ class CreateComment extends Component {
     form.append("avatar", user.avatar);
     form.append("file", this.state.file);
 
-    // const newComment = {
-    //   comment: this.state.comment,
-    //   username: user.username,
-    //   avatar: user.avatar
-    // };
-
     this.props.addComment(this.props.match.params.post_id, form);
     this.setState({
       comment: ""
@@ -66,11 +61,26 @@ class CreateComment extends Component {
     this.onMenuClick();
   };
 
-  fileSelectHandler = e => this.setState({ file: e.target.files[0] });
+  fileSelectHandler = e => {
+    if (e.target.files && e.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = e => {
+        this.setState({ image: e.target.result });
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+    this.setState({ file: e.target.files[0] });
+  };
+
+  closeImage = () => {
+    this.setState({
+      image: ""
+    });
+  };
 
   render() {
     const { post } = this.props.post;
-    const { attachments, dropDownMenu } = this.state;
+    const { attachments, dropDownMenu, image } = this.state;
 
     return (
       <React.Fragment>
@@ -133,7 +143,7 @@ class CreateComment extends Component {
 
             <div className="editor">
               <form onSubmit={this.onSubmit}>
-                <div>
+                <div className="editor__textarea">
                   <label>Add Comment</label>
                   <textarea
                     type="text"
@@ -143,13 +153,30 @@ class CreateComment extends Component {
                     placeholder="Type something"
                   />
                 </div>
-                <div>
-                  <label>Add attachments</label>
+                <div className="editor__chooseFile">
                   <input
                     type="file"
                     name="file"
+                    accept=".png, .jpg"
                     onChange={this.fileSelectHandler}
+                    ref={image => (this.image = image)}
+                    style={{ display: "none" }}
                   />
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() => this.image.click()}
+                      id="chooseFile-comment"
+                    >
+                      Choose a file
+                    </button>
+                  </div>
+                  {image ? (
+                    <div>
+                      <img src={image} alt="preview" style={{ width: 200 }} />
+                      <i className="fas fa-times" onClick={this.closeImage} />
+                    </div>
+                  ) : null}
                 </div>
                 <button type="submit" className="button">
                   Submit

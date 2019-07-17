@@ -37,11 +37,6 @@ const validationPostInput = require("../validation/post");
 const Profile = require("../models/Profile");
 const Post = require("../models/Post");
 
-// test
-router.get("/", (req, res) => {
-  res.send("post");
-});
-
 // Get all posts
 router.get("/all", (req, res) => {
   Post.find()
@@ -53,19 +48,15 @@ router.get("/all", (req, res) => {
 });
 
 // Get created posts
-router.get(
-  "/:post_id",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    const errors = {};
-    Post.findById(req.params.post_id)
+router.get("/:post_id", (req, res) => {
+  const errors = {};
+  Post.findById(req.params.post_id)
 
-      .then(post => res.json(post))
-      .catch(err =>
-        res.status(404).json({ nopostfound: "No post found with that id" })
-      );
-  }
-);
+    .then(post => res.json(post))
+    .catch(err =>
+      res.status(404).json({ nopostfound: "No post found with that id" })
+    );
+});
 
 // Create a post
 router.post(

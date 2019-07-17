@@ -35,7 +35,7 @@ class Header extends Component {
 
     const guestSession = (
       <ul className="header__links">
-        <li>
+        <li style={{ marginRight: 20 }}>
           <Link to="/post/all">Posts</Link>
         </li>
         <li>
@@ -53,7 +53,7 @@ class Header extends Component {
 
     const userSession = (
       <ul className="header__links">
-        <li>
+        <li style={{ marginRight: 20 }}>
           <Link to="/post/all">Posts</Link>
         </li>
         <li>
@@ -69,8 +69,10 @@ class Header extends Component {
           }}
         >
           <div className="username">
-            <span>{user.username}</span>
-            <i className="fas fa-sort-down" />
+            <div>
+              <span>{user.username}</span>
+              <i className="fas fa-sort-down" />
+            </div>
             {isOpen ? (
               <ul className="dropdown-menu">
                 <li>

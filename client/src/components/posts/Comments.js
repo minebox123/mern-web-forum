@@ -57,7 +57,7 @@ class Comments extends Component {
                 <p>{comment.username}</p>
               </div>
               <div className="message">
-                <div>
+                <div className="message-file">
                   <p>{comment.comment}</p>
                   {comment.file.map(image => (
                     <img
@@ -65,10 +65,11 @@ class Comments extends Component {
                       alt="attachment"
                       key={comment._id}
                       className="attachment"
+                      style={{ cursor: "pointer" }}
                     />
                   ))}
                 </div>
-                <div>
+                <div className="message-likes">
                   <span>
                     Posted:{" "}
                     <Moment format="DD/MM/YYYY HH:mm">{comment.date}</Moment>

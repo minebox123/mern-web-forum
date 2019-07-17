@@ -11,7 +11,7 @@ import Header from "./components/layouts/Header";
 import Landing from "./components/layouts/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
-import Footer from "./components/layouts/Footer";
+// import Footer from "./components/layouts/Footer";
 // import ForumMain from "./components/forum/ForumMain";
 import Profile from "./components/profile/Profile";
 import Posts from "./components/posts/Posts";
@@ -79,7 +79,7 @@ function App() {
               />
             </Switch>
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </Router>
     </Provider>
